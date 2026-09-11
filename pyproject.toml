@@ -5,7 +5,7 @@ build-backend = "hatchling.build"
 [project]
 name = "argus-investment-agent"
 version = "0.1.0"
-description = "Auditable personal investment research and decision support."
+description = "Local-first, LLM-assisted investment research and portfolio intelligence."
 readme = "README.md"
 license = "MIT"
 requires-python = ">=3.11"
