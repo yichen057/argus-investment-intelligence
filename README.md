@@ -1,6 +1,6 @@
 # Argus — Agentic Investment Research & Portfolio Intelligence
 
-[![CI](https://github.com/yichen057/argus/actions/workflows/ci.yml/badge.svg)](https://github.com/yichen057/argus/actions/workflows/ci.yml)
+[![CI](https://github.com/yichen057/argus-investment-intelligence/actions/workflows/ci.yml/badge.svg)](https://github.com/yichen057/argus-investment-intelligence/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 Argus is a local-first, LLM-assisted system for evidence-grounded investment
@@ -48,8 +48,8 @@ environment with Docker Compose v2.
 ### 1. Clone and configure
 
 ```bash
-git clone https://github.com/yichen057/argus.git
-cd argus
+git clone https://github.com/yichen057/argus-investment-intelligence.git
+cd argus-investment-intelligence
 cp .env.example .env
 ```
 
