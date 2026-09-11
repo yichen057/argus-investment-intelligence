@@ -1,0 +1,66 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: argus-api
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: argus-api
+  template:
+    metadata:
+      labels:
+        app: argus-api
+    spec:
+      serviceAccountName: argus
+      initContainers:
+        - name: migrations
+          image: ARGUS_BACKEND_IMAGE
+          command:
+            - sh
+            - -c
+            - alembic upgrade head && argus-verify-migration
+          envFrom:
+            - configMapRef: {name: argus-config}
+            - secretRef: {name: argus-secrets}
+      containers:
+        - name: api
+          image: ARGUS_BACKEND_IMAGE
+          imagePullPolicy: IfNotPresent
+          ports:
+            - {name: http, containerPort: 8000}
+          envFrom:
+            - configMapRef: {name: argus-config}
+            - secretRef: {name: argus-secrets}
+          readinessProbe:
+            httpGet: {path: /health/ready, port: http}
+            periodSeconds: 10
+            timeoutSeconds: 3
+            failureThreshold: 6
+          livenessProbe:
+            httpGet: {path: /health/live, port: http}
+            periodSeconds: 20
+            timeoutSeconds: 3
+          resources:
+            requests: {cpu: 250m, memory: 512Mi}
+            limits: {cpu: "1", memory: 1Gi}
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: false
+            runAsNonRoot: true
+            runAsUser: 1000
+          volumeMounts:
+            - {name: runtime-data, mountPath: /app/data}
+            - {name: runtime-artifacts, mountPath: /app/artifacts}
+      volumes:
+        - {name: runtime-data, emptyDir: {}}
+        - {name: runtime-artifacts, emptyDir: {}}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: argus-api
+spec:
+  selector: {app: argus-api}
+  ports:
+    - {name: http, port: 8000, targetPort: http}

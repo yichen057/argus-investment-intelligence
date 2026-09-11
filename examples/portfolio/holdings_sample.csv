@@ -1,0 +1,4 @@
+symbol,name,asset_class,quantity,price,market_value,cost_basis,account,as_of_date
+AAPL,Apple Inc,Equity,10,200,2000,1500,Taxable,2026-07-14
+BND,Vanguard Total Bond Market ETF,Bond,20,50,1000,950,IRA,2026-07-14
+CASH,Cash Sweep,Cash,1,500,500,500,Taxable,2026-07-14

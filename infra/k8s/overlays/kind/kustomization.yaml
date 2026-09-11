@@ -1,0 +1,28 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: argus
+resources:
+  - ../../base
+  - local-infra.yaml
+replicas:
+  - name: argus-api
+    count: 1
+  - name: argus-frontend
+    count: 1
+  - name: argus-worker
+    count: 1
+  - name: argus-event-consumer
+    count: 1
+images:
+  - name: ARGUS_BACKEND_IMAGE
+    newName: argus-backend
+    newTag: KIND_IMAGE_TAG
+  - name: ARGUS_FRONTEND_IMAGE
+    newName: argus-frontend
+    newTag: KIND_IMAGE_TAG
+patches:
+  - path: configmap.yaml
+  - path: kafka-topic-bootstrap.yaml
+  - path: delete-ingress.yaml
+  - path: delete-hpa.yaml
+  - path: delete-eval-cronjob.yaml

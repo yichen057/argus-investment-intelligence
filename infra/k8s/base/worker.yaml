@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: argus-worker
+spec:
+  replicas: 1
+  selector:
+    matchLabels: {app: argus-worker}
+  template:
+    metadata:
+      labels: {app: argus-worker}
+    spec:
+      serviceAccountName: argus
+      containers:
+        - name: worker
+          image: ARGUS_BACKEND_IMAGE
+          command: ["argus-worker"]
+          envFrom:
+            - configMapRef: {name: argus-config}
+            - secretRef: {name: argus-secrets}
+          resources:
+            requests: {cpu: 250m, memory: 512Mi}
+            limits: {cpu: "2", memory: 2Gi}
+          securityContext:
+            allowPrivilegeEscalation: false
+            runAsNonRoot: true
+            runAsUser: 1000
+          volumeMounts:
+            - {name: runtime-data, mountPath: /app/data}
+            - {name: runtime-artifacts, mountPath: /app/artifacts}
+      volumes:
+        - {name: runtime-data, emptyDir: {}}
+        - {name: runtime-artifacts, emptyDir: {}}

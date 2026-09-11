@@ -1,0 +1,2114 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Argus SDE Intern Ultimate Interview Q&A / 终极面试学习版</title>
+  <style>
+    :root {
+      --bg: #f6f8fb;
+      --panel: #ffffff;
+      --ink: #1f2933;
+      --muted: #66788a;
+      --line: #dbe4ee;
+      --green: #1f7a5c;
+      --green-soft: #e8f5ef;
+      --blue: #2563eb;
+      --blue-soft: #eaf1ff;
+      --amber: #a16207;
+      --amber-soft: #fff7e6;
+      --red: #b42318;
+      --red-soft: #fff1f0;
+      --purple: #6d4bb3;
+      --purple-soft: #f3edff;
+      --code: #0f172a;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font: 16px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+        "Hiragino Sans GB", "Microsoft YaHei", Arial, sans-serif;
+    }
+
+    header {
+      background: linear-gradient(135deg, #102a43, #1f7a5c);
+      color: white;
+      padding: 42px 28px;
+    }
+
+    main {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 28px;
+    }
+
+    h1, h2, h3, h4 { line-height: 1.25; margin: 0 0 12px; }
+    h1 { font-size: 34px; }
+    h2 { font-size: 26px; margin-top: 34px; border-bottom: 2px solid var(--line); padding-bottom: 8px; }
+    h3 { font-size: 21px; margin-top: 24px; }
+    h4 { font-size: 17px; margin-top: 18px; }
+    p { margin: 0 0 12px; }
+
+    a { color: var(--blue); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .subtitle {
+      max-width: 900px;
+      color: rgba(255, 255, 255, 0.86);
+      font-size: 18px;
+    }
+
+    .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      border: 1px solid rgba(255,255,255,0.32);
+      border-radius: 999px;
+      padding: 6px 12px;
+      color: white;
+      background: rgba(255,255,255,0.10);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 20px;
+      margin: 18px 0;
+      box-shadow: 0 8px 28px rgba(16, 42, 67, 0.06);
+    }
+
+    .qa {
+      border-left: 5px solid var(--green);
+    }
+
+    .decision {
+      border-left: 5px solid var(--purple);
+      background: linear-gradient(90deg, var(--purple-soft), #fff);
+    }
+
+    .warning {
+      border-left: 5px solid var(--amber);
+      background: var(--amber-soft);
+    }
+
+    .danger {
+      border-left: 5px solid var(--red);
+      background: var(--red-soft);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px;
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    @media (max-width: 800px) {
+      .two-col { grid-template-columns: 1fr; }
+      main { padding: 18px; }
+      h1 { font-size: 28px; }
+    }
+
+    .label {
+      display: inline-block;
+      font-size: 12px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      font-weight: 800;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+
+    .en {
+      border: 1px solid var(--line);
+      background: var(--blue-soft);
+      border-radius: 12px;
+      padding: 14px;
+    }
+
+    .cn {
+      border: 1px solid var(--line);
+      background: var(--green-soft);
+      border-radius: 12px;
+      padding: 14px;
+    }
+
+    .terms {
+      border: 1px solid #eadcff;
+      background: var(--purple-soft);
+      border-radius: 12px;
+      padding: 12px 14px;
+      color: #45305f;
+      font-size: 14px;
+    }
+
+    .term-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+      gap: 14px;
+    }
+
+    .term-card {
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: #ffffff;
+      padding: 16px;
+    }
+
+    .term-card h3 {
+      margin-top: 0;
+      font-size: 18px;
+    }
+
+    .term-card .tag {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: #eef3f8;
+      color: #334e68;
+      font-size: 12px;
+      font-weight: 800;
+      margin: 0 4px 8px 0;
+    }
+
+    .term-block {
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px dashed var(--line);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 12px 0;
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+    }
+
+    th, td {
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--line);
+      vertical-align: top;
+      text-align: left;
+    }
+
+    th {
+      background: #eef3f8;
+      color: #334e68;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    tr:last-child td { border-bottom: 0; }
+
+    code, pre {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+    }
+
+    code {
+      background: #eef3f8;
+      border-radius: 6px;
+      padding: 2px 6px;
+      font-size: 0.92em;
+    }
+
+    pre {
+      background: var(--code);
+      color: #e2e8f0;
+      padding: 16px;
+      border-radius: 12px;
+      overflow: auto;
+      line-height: 1.45;
+    }
+
+    .toc {
+      columns: 2;
+      column-gap: 28px;
+    }
+
+    .toc a {
+      display: block;
+      break-inside: avoid;
+      padding: 5px 0;
+      color: #184e77;
+    }
+
+    .flow {
+      background: #0b1220;
+      color: #e5edf5;
+      border-radius: 14px;
+      padding: 16px;
+      overflow-x: auto;
+      white-space: pre;
+      line-height: 1.45;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 14px;
+    }
+
+    .small { color: var(--muted); font-size: 14px; }
+    .strong { font-weight: 800; }
+    .kw {
+      font-weight: 900;
+      color: #102a43;
+      background: linear-gradient(180deg, transparent 58%, #fff3bf 58%);
+      padding: 0 2px;
+      border-radius: 3px;
+    }
+    .keyword-index {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 12px;
+    }
+    .keyword-index h3 {
+      font-size: 16px;
+      margin: 0 0 8px;
+      color: #102a43;
+    }
+    .keyword-index p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+    .keyword-line {
+      margin-top: 8px;
+      line-height: 1.9;
+    }
+    .quote {
+      border-left: 4px solid var(--blue);
+      padding-left: 14px;
+      color: #334e68;
+      margin: 12px 0;
+    }
+
+    details {
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 10px 14px;
+      background: #fbfdff;
+      margin: 10px 0;
+    }
+
+    summary {
+      cursor: pointer;
+      font-weight: 800;
+      color: #334e68;
+    }
+
+    @media print {
+      header { background: #102a43; }
+      .card { break-inside: avoid; box-shadow: none; }
+      a { color: var(--ink); }
+      body { background: white; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Argus SDE Intern Ultimate Interview Q&amp;A<br />终极面试学习版</h1>
+    <p class="subtitle">
+      面向 SDE Intern 面试。目标不是背技术名词，而是让你用小白也能听懂的话解释：
+      项目做什么、系统怎么跑、为什么方案变化、每个技术选择解决了什么问题、如何测试和上云。
+    </p>
+    <div class="meta">
+      <span class="pill">Bilingual / 中英双语</span>
+      <span class="pill">Decision-oriented / 强调决策过程</span>
+      <span class="pill">Beginner-friendly / 技术小白友好</span>
+      <span class="pill">Source: docs/INTERVIEW_QA.md</span>
+    </div>
+  </header>
+
+  <main>
+    <section class="card warning">
+      <h2 id="how-to-use">How to use this guide / 如何使用</h2>
+      <p>
+        面试时不要试图把每个技术点都说完。推荐顺序是：
+        <span class="strong">先讲业务问题 → 再讲架构 → 再讲关键取舍 → 最后讲验证证据</span>。
+      </p>
+      <p>
+        Use this as a learning map. Start with the 90-second pitch, then review the architecture flow,
+        then practice the Q&amp;A cards that match the role you are interviewing for.
+      </p>
+      <p>
+        每个 Q&amp;A 都按同一思路准备：<strong>English answer</strong> 是面试可说版本；
+        <strong>中文讲解</strong> 是你真正理解的版本；<strong>Key terms</strong> 帮你把专业名词翻译成业务或技术流程。
+      </p>
+    </section>
+
+    <section class="card">
+      <h2>Keyword memory map / 背诵关键词地图</h2>
+      <p class="small">
+        背面试答案时，不需要逐字背。用下面这些 <span class="kw">关键词</span> 串起完整回答：
+        “业务目标是什么 → 系统怎么做 → 为什么这样设计 → 如何验证和控制风险”。
+      </p>
+      <div class="keyword-index">
+        <div>
+          <h3>Product / 产品</h3>
+          <p class="keyword-line">
+            <span class="kw">personalized investment support</span> · <span class="kw">research module</span> ·
+            <span class="kw">investment suggestions</span> · <span class="kw">cash goals</span> ·
+            <span class="kw">retirement planning</span>
+          </p>
+        </div>
+        <div>
+          <h3>Architecture / 架构</h3>
+          <p class="keyword-line">
+            <span class="kw">React/TypeScript</span> · <span class="kw">FastAPI</span> ·
+            <span class="kw">REST APIs</span> · <span class="kw">PostgreSQL/pgvector</span> ·
+            <span class="kw">Redis Worker</span> · <span class="kw">Kafka events</span>
+          </p>
+        </div>
+        <div>
+          <h3>AI &amp; Evidence / AI 与证据</h3>
+          <p class="keyword-line">
+            <span class="kw">RAG</span> · <span class="kw">Embedding</span> · <span class="kw">Exa web search</span> ·
+            <span class="kw">Evidence Gate</span> · <span class="kw">claim/citation validation</span> ·
+            <span class="kw">explicit model selection</span>
+          </p>
+        </div>
+        <div>
+          <h3>Portfolio / 投资组合</h3>
+          <p class="keyword-line">
+            <span class="kw">deterministic portfolio logic</span> · <span class="kw">DCA</span> ·
+            <span class="kw">ETF candidates</span> · <span class="kw">Robinhood read-only MCP</span> ·
+            <span class="kw">market data</span> · <span class="kw">Heatmap</span>
+          </p>
+        </div>
+        <div>
+          <h3>Reliability / 可靠性</h3>
+          <p class="keyword-line">
+            <span class="kw">background jobs</span> · <span class="kw">event pipeline</span> ·
+            <span class="kw">Consumer heartbeat</span> · <span class="kw">deduplication</span> ·
+            <span class="kw">DLQ</span> · <span class="kw">migration checks</span>
+          </p>
+        </div>
+        <div>
+          <h3>Cloud &amp; Cost / 云与成本</h3>
+          <p class="keyword-line">
+            <span class="kw">Docker</span> · <span class="kw">local Kubernetes</span> ·
+            <span class="kw">AWS EC2/ECR/IAM/SSM</span> · <span class="kw">Terraform</span> ·
+            <span class="kw">API Usage Ledger</span> · <span class="kw">provider billing</span>
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Table of Contents / 目录</h2>
+      <nav class="toc">
+        <a href="#pitch">1. 90-second pitch / 90 秒项目介绍</a>
+        <a href="#architecture">2. System architecture / 系统架构</a>
+        <a href="#glossary">3. Core glossary / 核心术语</a>
+        <a href="#product">4. Product &amp; business Q&amp;A / 产品与业务</a>
+        <a href="#research">5. Research engine Q&amp;A / 研究引擎</a>
+        <a href="#portfolio">6. Portfolio &amp; planning Q&amp;A / 投资与现金规划</a>
+        <a href="#mcp">7. Robinhood MCP &amp; market data / 券商与行情</a>
+        <a href="#events">8. Redis, Kafka, Worker / 后台任务与事件</a>
+        <a href="#cloud">9. Docker, Kubernetes, AWS / 本地与云部署</a>
+        <a href="#cost">10. Cost, billing, observability / 成本与审计</a>
+        <a href="#decisions">11. Key decision history / 关键决策变化</a>
+        <a href="#interviewer">12. Tough interviewer questions / 面试官追问</a>
+        <a href="#cheatsheet">13. Final cheat sheet / 最终速记</a>
+      </nav>
+    </section>
+
+    <section class="card qa" id="pitch">
+      <h2>1. 90-second pitch / 90 秒项目介绍</h2>
+      <div class="two-col">
+        <div class="en">
+          <span class="label">English answer</span>
+          <p>
+            Argus is a personalized investment research and portfolio decision-support system.
+            It has two main parts. The Research module combines uploaded documents and cited web
+            evidence to generate grounded answers and report-ready insights. The Investment and
+            Money Planning modules use the user's own broker holdings, profile, life stage, cash
+            goals, expenses, and market evidence to generate ETF candidates, rebalancing guidance,
+            DCA plans, and retirement/cash-planning outputs.
+          </p>
+          <p>
+            Architecturally, I built a React/TypeScript frontend and a FastAPI backend. PostgreSQL
+            with pgvector supports RAG retrieval. Exa provides independent web evidence search.
+            Redis handles background jobs. Kafka records run-completion and failure events for
+            audit and metrics. Robinhood MCP is integrated as a strictly read-only source for
+            positions and quotes. I validated the system locally with Docker and local Kubernetes,
+            and completed a short-lived AWS EC2 smoke deployment with teardown and residual audits.
+          </p>
+          <p>
+            The main engineering focus was trust and controllability. Argus does not blindly let an
+            LLM invent conclusions or trades. It uses Evidence Gate validation, citation checks,
+            deterministic portfolio math, explicit model selection, token/cost tracking, and Kafka
+            DLQ monitoring so the user can understand where a result came from and what was rejected.
+          </p>
+        </div>
+        <div class="cn">
+          <span class="label">中文理解</span>
+          <p>
+            Argus 不是“第三方推送买什么”的工具，而是根据用户自己的资料和约束生成可审计的
+            投资研究与决策支持。Research 模块负责“证据和研报”；Investment / Money Planning
+            模块负责“结合持仓、收入、人生阶段、现金目标和市场信息，给出调仓、ETF 候选、
+            定投和退休资金倒推”。
+          </p>
+          <p>
+            技术上，前端是 React/TypeScript，后端是 FastAPI。PostgreSQL/pgvector 做本地证据检索，
+            Exa 做独立网页证据搜索，Redis 做后台任务，Kafka 做运行事件审计，Robinhood MCP
+            只读同步持仓和行情。项目用 Docker、本地 Kubernetes 和一次短时 AWS EC2 上云验证过。
+          </p>
+          <p>
+            面试里重点强调：你不是只堆技术栈，而是在解决“AI 投资工具是否可信、可控、可解释”
+            的问题。因此设计了 Evidence Gate、引用校验、确定性投资计算、模型成本追踪和事件审计。
+          </p>
+        </div>
+      </div>
+      <div class="terms">
+        Key terms / 关键词：Personalized decision support（个性化决策支持）、RAG（检索增强生成）、
+        Evidence Gate（证据门）、Deterministic portfolio logic（确定性投资组合计算）、
+        Auditability（可审计性）。
+      </div>
+    </section>
+
+    <section id="architecture">
+      <h2>2. System architecture / 系统架构</h2>
+      <div class="card">
+        <h3>High-level flow / 总体流程</h3>
+        <div class="flow">User Browser
+  │
+  ▼
+React / TypeScript Frontend
+  │
+  ├─ Research question, uploaded documents, method packs
+  ├─ Profile, cash goals, life stage, expenses
+  └─ Portfolio / Money Planning / Runs UI
+  │
+  ▼
+FastAPI Backend
+  │
+  ├─ Research Engine
+  │    ├─ Local RAG: PostgreSQL + pgvector
+  │    ├─ Web evidence: Exa direct-URL search
+  │    ├─ Evidence Gate + citation verifier
+  │    └─ Selected answer model: Gemini / DeepSeek / Kimi
+  │
+  ├─ Portfolio Engine
+  │    ├─ Broker/file holdings snapshot
+  │    ├─ Deterministic rebalance and DCA math
+  │    ├─ ETF universe and candidate scoring
+  │    └─ AI explanation layer, not hidden trade calculator
+  │
+  ├─ Money Planning Engine
+  │    ├─ Short-term cash goals
+  │    └─ Retirement funding back-solve
+  │
+  ├─ Redis → Worker for background tasks
+  ├─ Kafka → Audit/Metrics Consumer for run events
+  └─ Robinhood Sidecar → read-only MCP positions and quotes</div>
+      </div>
+
+      <div class="card qa">
+        <h3>Q: Is Argus a single service or a multi-service system?</h3>
+        <div class="two-col">
+          <div class="en">
+            <span class="label">English answer</span>
+            <p>
+              From a product perspective, Argus is one application. From an engineering perspective,
+              it is a multi-component system: frontend, API backend, database, Redis worker, Kafka
+              consumer, and optional Robinhood sidecar. I keep the core user workflow in one product,
+              but separate components when they have different reliability, security, or latency needs.
+            </p>
+          </div>
+          <div class="cn">
+            <span class="label">中文讲解</span>
+            <p>
+              对用户来说它是一个应用；对工程来说它由多个组件组成。拆分不是为了显得复杂，
+              而是因为前端、API、数据库、后台任务、事件消费和券商连接的风险和生命周期不同。
+            </p>
+          </div>
+        </div>
+        <div class="terms">
+          Service（服务）：可独立运行/部署的程序单元。Component（组件）：系统内部有明确职责的部分，
+          不一定独立部署。
+        </div>
+      </div>
+    </section>
+
+    <section id="glossary">
+      <h2>3. Core glossary / 核心术语</h2>
+      <div class="card warning">
+        <p>
+          这一节按 SDE Intern 面试方式重写：每个术语都包含英文定义、中文小白解释、Argus 项目中的具体作用，
+          以及面试时可以怎么说。不要只背英文缩写，要能说清楚“它解决了什么工程问题”。
+        </p>
+      </div>
+
+      <div class="term-grid">
+        <div class="term-card">
+          <h3>RAG · Retrieval-Augmented Generation / 检索增强生成</h3>
+          <span class="tag">Research</span><span class="tag">LLM</span>
+          <div class="term-block">
+            <strong>English:</strong> RAG means the system retrieves relevant evidence first and then asks a model to answer using that evidence.
+          </div>
+          <div class="term-block">
+            <strong>中文小白解释：</strong>先找资料，再回答。不要让模型凭记忆乱说，先把“参考资料”递给它。
+          </div>
+          <div class="term-block">
+            <strong>Argus 中的作用：</strong>从上传文档、PostgreSQL/pgvector 和 Exa 网页证据中找出相关片段，再生成 cited answer。
+          </div>
+          <div class="term-block">
+            <strong>面试说法：</strong>“I used RAG so the model writes from retrieved evidence instead of answering from memory.”
+          </div>
+        </div>
+
+        <div class="term-card">
+          <h3>Embedding / 向量表示</h3>
+          <span class="tag">Search</span><span class="tag">Database</span>
+          <div class="term-block">
+            <strong>English:</strong> An embedding is a numeric representation of text. Similar meanings should have similar vectors.
+          </div>
+          <div class="term-block">
+            <strong>中文小白解释：</strong>把文字变成一串数字坐标。意思相近的句子，数字距离也更近。
+          </div>
+          <div class="term-block">
+            <strong>Argus 中的作用：</strong>使用 Gemini 768 维 embedding，把文档 chunk 存入数据库，用于语义检索。
+          </div>
+          <div class="term-block">
+            <strong>面试说法：</strong>“Embeddings let Argus find semantically relevant evidence, not just exact keyword matches.”
+          </div>
+        </div>
+
+        <div class="term-card">
+          <h3>pgvector / PostgreSQL 向量扩展</h3>
+          <span class="tag">PostgreSQL</span><span class="tag">RAG</span>
+          <div class="term-block">
+            <strong>English:</strong> pgvector is a PostgreSQL extension for storing and searching vector embeddings.
+          </div>
+          <div class="term-block">
+            <strong>中文小白解释：</strong>它让普通数据库也能做“语义相似度搜索”，而不只是查等于某个词。
+          </div>
+          <div class="term-block">
+            <strong>Argus 中的作用：</strong>存储 evidence chunk 的 embedding，通过 HNSW 索引做 top-k retrieval。
+          </div>
+          <div class="term-block">
+            <strong>面试说法：</strong>“I used PostgreSQL as the system of record and pgvector for semantic retrieval in the same database.”
+          </div>
+        </div>
+
+        <div class="term-card">
+          <h3>HNSW / 分层近似最近邻索引</h3>
+          <span class="tag">Vector Search</span>
+          <div class="term-block">
+            <strong>English:</strong> HNSW is an approximate nearest-neighbor index that speeds up vector similarity search.
+          </div>
+          <div class="term-block">
+            <strong>中文小白解释：</strong>如果每次都把问题和所有文档逐个比较会慢。HNSW 像给向量建高速索引，能更快找到相似内容。
+          </div>
+          <div class="term-block">
+            <strong>Argus 中的作用：</strong>用于 pgvector 检索，让文档量增加时仍能较快找证据。
+          </div>
+          <div class="term-block">
+            <strong>面试说法：</strong>“HNSW improves retrieval latency by avoiding a full scan over all vectors.”
+          </div>
+        </div>
+
+        <div class="term-card">
+          <h3>Evidence Gate / 证据门</h3>
+          <span class="tag">Safety</span><span class="tag">Trust</span>
+          <div class="term-block">
+            <strong>English:</strong> Evidence Gate is a rule layer that decides whether retrieved evidence is strong enough before showing an answer or generating a report.
+          </div>
+          <div class="term-block">
+            <strong>中文小白解释：</strong>像一道质检门。证据不够，就不要硬编答案，更不要包装成报告。
+          </div>
+          <div class="term-block">
+            <strong>Argus 中的作用：</strong>检查直接 URL、引用片段、结构化 claim、证据覆盖率和 critic 结果；不通过时显示 safe stop。
+          </div>
+          <div class="term-block">
+            <strong>面试说法：</strong>“The Evidence Gate is how I prevent weak evidence from becoming a polished but unreliable report.”
+          </div>
+        </div>
+
+        <div class="term-card">
+          <h3>Claim / Citation / Evidence / 论点、引用、证据</h3>
+          <span class="tag">Audit</span>
+          <div class="term-block">
+            <strong>English:</strong> A claim is a statement the system makes. A citation links that claim to evidence. Evidence is the source passage or data supporting it.
+          </div>
+          <div class="term-block">
+            <strong>中文小白解释：</strong>Claim 是“结论”，Citation 是“出处链接”，Evidence 是“原文或数据”。没有出处的结论不能当成可靠研报。
+          </div>
+          <div class="term-block">
+            <strong>Argus 中的作用：</strong>Research answer 和 report 会把 claim 连接到 evidence ID，Runs 中可追踪。
+          </div>
+          <div class="term-block">
+            <strong>面试说法：</strong>“I store structured claims and citations so the user can trace a conclusion back to its source.”
+          </div>
+        </div>
+
+        <div class="term-card">
+          <h3>Deterministic Logic / 确定性逻辑</h3>
+          <span class="tag">Portfolio</span><span class="tag">Reliability</span>
+          <div class="term-block">
+            <strong>English:</strong> Deterministic logic means the same input always produces the same output.
+          </div>
+          <div class="term-block">
+            <strong>中文小白解释：</strong>同样的持仓和 Profile，今天算和明天算应该一样。不能让模型每次给不同数字。
+          </div>
+          <div class="term-block">
+            <strong>Argus 中的作用：</strong>调仓金额、股数估算、DCA、现金目标、退休倒推都由 Python 规则计算。
+          </div>
+          <div class="term-block">
+            <strong>面试说法：</strong>“LLMs explain; deterministic code calculates portfolio amounts.”
+          </div>
+        </div>
+
+        <div class="term-card">
+          <h3>FastAPI vs REST APIs / FastAPI 与 REST API 的区别</h3>
+          <span class="tag">Backend</span><span class="tag">API</span>
+          <div class="term-block">
+            <strong>English:</strong> <span class="kw">FastAPI</span> is a <span class="kw">Python web framework</span> used to build backend services. <span class="kw">REST API</span> is an <span class="kw">architectural style</span> for exposing resources through <span class="kw">HTTP endpoints</span> such as <code>GET</code>, <code>POST</code>, <code>PUT</code>, and <code>DELETE</code>.
+          </div>
+          <div class="term-block">
+            <strong>中文小白解释：</strong><span class="kw">FastAPI</span> 是“做后端接口的工具”；<span class="kw">REST API</span> 是“接口怎么设计和怎么被前端调用的规则”。类比一下：<span class="kw">FastAPI</span> 像餐厅厨房，<span class="kw">REST API</span> 像菜单和点餐规则。
+          </div>
+          <div class="term-block">
+            <strong>Argus 中的作用：</strong>Argus 用 <span class="kw">FastAPI</span> 实现 <span class="kw">REST 风格接口</span>，例如 <span class="kw">上传文档</span>、<span class="kw">Ask 提问</span>、<span class="kw">生成报告</span>、<span class="kw">保存 Profile</span>、<span class="kw">同步 Robinhood 持仓</span>、<span class="kw">查看 Runs</span> 和 <span class="kw">刷新供应商余额</span>。
+          </div>
+          <div class="term-block">
+            <strong>面试说法：</strong>“<span class="kw">FastAPI</span> is the framework I used to implement the backend. <span class="kw">REST APIs</span> are the <span class="kw">HTTP contracts</span> the <span class="kw">React frontend</span> calls.”
+          </div>
+        </div>
+
+        <div class="term-card">
+          <h3>DCA · Dollar-Cost Averaging / 定期定额投资</h3>
+          <span class="tag">Investment</span>
+          <div class="term-block">
+            <strong>English:</strong> DCA means investing a fixed dollar amount regularly instead of trying to time the market.
+          </div>
+          <div class="term-block">
+            <strong>中文小白解释：</strong>每月固定投一笔钱，而不是猜哪天最低点买入。
+          </div>
+          <div class="term-block">
+            <strong>Argus 中的作用：</strong>把每月新增资金优先分配给低配资产或证据支持的 ETF 候选，降低直接卖出带来的税务/交易影响。
+          </div>
+          <div class="term-block">
+            <strong>面试说法：</strong>“DCA is used as a contribution plan, not as automatic trading.”
+          </div>
+        </div>
+
+        <div class="term-card">
+          <h3>Redis / 后台任务队列与缓存</h3>
+          <span class="tag">Backend</span>
+          <div class="term-block">
+            <strong>English:</strong> Redis is an in-memory data store often used for queues, caching, and short-lived coordination.
+          </div>
+          <div class="term-block">
+            <strong>中文小白解释：</strong>它像一个高速排队系统。API 接到耗时任务后先放进队列，不让网页请求一直等。
+          </div>
+          <div class="term-block">
+            <strong>Argus 中的作用：</strong>文档导入、后台处理等任务可以由 Redis 排队，再由 Worker 异步执行。
+          </div>
+          <div class="term-block">
+            <strong>面试说法：</strong>“Redis keeps long-running work out of the API request path.”
+          </div>
+        </div>
+
+        <div class="term-card">
+          <h3>Worker / 后台工作进程</h3>
+          <span class="tag">Async Jobs</span>
+          <div class="term-block">
+            <strong>English:</strong> A worker is a separate process that pulls tasks from a queue and executes them outside the web request.
+          </div>
+          <div class="term-block">
+            <strong>中文小白解释：</strong>API 是前台窗口，Worker 是后台办事员。前台登记任务，后台慢慢处理。
+          </div>
+          <div class="term-block">
+            <strong>Argus 中的作用：</strong>执行文档处理、后台任务，避免用户点击后页面长时间卡住。
+          </div>
+          <div class="term-block">
+            <strong>面试说法：</strong>“The worker improves responsiveness and isolates failures from the web request.”
+          </div>
+        </div>
+
+        <div class="term-card">
+          <h3>Kafka / Event Streaming / 事件流</h3>
+          <span class="tag">Events</span><span class="tag">Audit</span>
+          <div class="term-block">
+            <strong>English:</strong> Kafka is a durable event log. Producers publish events; consumers read and process them independently.
+          </div>
+          <div class="term-block">
+            <strong>中文小白解释：</strong>Kafka 像系统里的“消息流水账”。API 说“某个 Run 完成/失败了”，Consumer 之后再处理这个消息。
+          </div>
+          <div class="term-block">
+            <strong>Argus 中的作用：</strong>发布 <code>agent.run.completed.v1</code> 和 <code>agent.run.failed.v1</code>，用于 Runs 页面审计、去重和 DLQ 监控。
+          </div>
+          <div class="term-block">
+            <strong>面试说法：</strong>“Kafka is not required for the small app to function, but it gives an event-driven audit path and prepares the system for more consumers.”
+          </div>
+        </div>
+
+        <div class="term-card">
+          <h3>Producer / Consumer / 生产者与消费者</h3>
+          <span class="tag">Kafka</span>
+          <div class="term-block">
+            <strong>English:</strong> A producer sends messages to Kafka. A consumer reads messages from Kafka and performs downstream work.
+          </div>
+          <div class="term-block">
+            <strong>中文小白解释：</strong>生产者是“发消息的人”，消费者是“收消息并处理的人”。
+          </div>
+          <div class="term-block">
+            <strong>Argus 中的作用：</strong>FastAPI 是 producer；Audit/Metrics Consumer 读取 Run 事件并更新审计视图。
+          </div>
+          <div class="term-block">
+            <strong>面试说法：</strong>“The API produces run events; the consumer builds an audit projection.”
+          </div>
+        </div>
+
+        <div class="term-card">
+          <h3>DLQ · Dead Letter Queue / 死信队列</h3>
+          <span class="tag">Kafka</span><span class="tag">Reliability</span>
+          <div class="term-block">
+            <strong>English:</strong> A DLQ stores messages that cannot be processed after validation or retry.
+          </div>
+          <div class="term-block">
+            <strong>中文小白解释：</strong>坏消息不能一直堵住正常队列，所以放到“问题件箱”里，之后人工检查。
+          </div>
+          <div class="term-block">
+            <strong>Argus 中的作用：</strong>无效 JSON、缺字段、超过重试的 Kafka event 会进入 DLQ，Runs 页面显示数量和原因。
+          </div>
+          <div class="term-block">
+            <strong>面试说法：</strong>“The DLQ prevents bad events from blocking valid event processing.”
+          </div>
+        </div>
+
+        <div class="term-card">
+          <h3>Offset / Lag / Heartbeat / 消息位置、积压、心跳</h3>
+          <span class="tag">Kafka Ops</span>
+          <div class="term-block">
+            <strong>English:</strong> Offset is the message position. Lag is how far the consumer is behind. Heartbeat proves the consumer is still alive.
+          </div>
+          <div class="term-block">
+            <strong>中文小白解释：</strong>Offset 是读到第几条；Lag 是还有几条没读；Heartbeat 是 Consumer 定期说“我还活着”。
+          </div>
+          <div class="term-block">
+            <strong>Argus 中的作用：</strong>Runs Management 用这些指标判断 Kafka Consumer 是否健康、是否积压。
+          </div>
+          <div class="term-block">
+            <strong>面试说法：</strong>“I do not just check whether Kafka is running; I check whether the consumer is processing, deduplicating, and keeping lag low.”
+          </div>
+        </div>
+
+        <div class="term-card">
+          <h3>MCP · Model Context Protocol / 模型上下文协议</h3>
+          <span class="tag">Integration</span><span class="tag">Tools</span>
+          <div class="term-block">
+            <strong>English:</strong> MCP is a protocol that lets AI applications connect to external tools and data sources through declared tool schemas.
+          </div>
+          <div class="term-block">
+            <strong>中文小白解释：</strong>它像 AI 应用和外部工具之间的“插头标准”。工具先声明自己能做什么，AI 应用再调用。
+          </div>
+          <div class="term-block">
+            <strong>Argus 中的作用：</strong>通过 Robinhood Trading MCP 读取持仓和行情，但 Argus 只允许只读工具。
+          </div>
+          <div class="term-block">
+            <strong>面试说法：</strong>“I treat MCP discovery as capability discovery, not automatic authorization.”
+          </div>
+        </div>
+
+        <div class="term-card">
+          <h3>Sidecar / 边车进程</h3>
+          <span class="tag">Security Boundary</span>
+          <div class="term-block">
+            <strong>English:</strong> A sidecar is a companion process that runs beside the main app and isolates a specialized responsibility.
+          </div>
+          <div class="term-block">
+            <strong>中文小白解释：</strong>它不是主应用的一部分，但在旁边帮主应用处理高风险事情，比如外部授权和协议连接。
+          </div>
+          <div class="term-block">
+            <strong>Argus 中的作用：</strong>Robinhood sidecar 持有 MCP session，验证工具 schema，只暴露 <code>read_positions()</code> 和 <code>read_quotes()</code>。
+          </div>
+          <div class="term-block">
+            <strong>面试说法：</strong>“The sidecar narrows the brokerage integration boundary and keeps trading-capable tools away from the business layer.”
+          </div>
+        </div>
+
+        <div class="term-card">
+          <h3>OHLCV / Open-High-Low-Close-Volume / 开高低收量</h3>
+          <span class="tag">Market Data</span>
+          <div class="term-block">
+            <strong>English:</strong> OHLCV is the open, high, low, close, and volume for a market time interval.
+          </div>
+          <div class="term-block">
+            <strong>中文小白解释：</strong>一只股票或 ETF 在某天/某分钟的开盘价、最高价、最低价、收盘价和成交量。
+          </div>
+          <div class="term-block">
+            <strong>Argus 中的作用：</strong>Robinhood historicals 可用于本地计算涨跌幅、成交量活跃度和未来技术指标。
+          </div>
+          <div class="term-block">
+            <strong>面试说法：</strong>“I prefer computing indicators from OHLCV deterministically rather than asking the model to invent them.”
+          </div>
+        </div>
+
+        <div class="term-card">
+          <h3>Volume Z-score / 成交量活跃度标准分</h3>
+          <span class="tag">Heatmap</span>
+          <div class="term-block">
+            <strong>English:</strong> Volume Z-score compares today's volume with recent historical average volume in units of standard deviation.
+          </div>
+          <div class="term-block">
+            <strong>中文小白解释：</strong>它不是涨跌幅，而是“今天成交量是不是异常活跃”。例如 Z-score 很高，说明今天交易量明显超过平时。
+          </div>
+          <div class="term-block">
+            <strong>Argus 中的作用：</strong>Heatmap 主界面显示 Normal/Elevated/High/Unusual/Quiet，详情里显示公式和 Z-score。
+          </div>
+          <div class="term-block">
+            <strong>面试说法：</strong>“Volume activity is a context signal, not a buy signal.”
+          </div>
+        </div>
+
+        <div class="term-card">
+          <h3>Kubernetes / K8s / 容器编排平台</h3>
+          <span class="tag">Deployment</span>
+          <div class="term-block">
+            <strong>English:</strong> Kubernetes orchestrates containers: it schedules Pods, restarts failed containers, manages Services, and applies configuration.
+          </div>
+          <div class="term-block">
+            <strong>中文小白解释：</strong>Docker 负责“把程序装进容器”；K8s 负责“管理一堆容器怎么运行、重启、互相访问”。
+          </div>
+          <div class="term-block">
+            <strong>Argus 中的作用：</strong>本地 kind/Kustomize 验证 API、frontend、worker、consumer、PostgreSQL、Redis、Kafka 的编排关系。
+          </div>
+          <div class="term-block">
+            <strong>面试说法：</strong>“I validated Kubernetes concepts locally, but I do not overclaim production EKS for this smoke.”
+          </div>
+        </div>
+
+        <div class="term-card">
+          <h3>kind / Kustomize / 本地 K8s 与配置管理</h3>
+          <span class="tag">Local Kubernetes</span>
+          <div class="term-block">
+            <strong>English:</strong> kind runs a local Kubernetes cluster in Docker. Kustomize manages Kubernetes YAML overlays without templating.
+          </div>
+          <div class="term-block">
+            <strong>中文小白解释：</strong>kind 是“在本机模拟一个 K8s 集群”；Kustomize 是“用不同配置叠加出本地/云端部署版本”。
+          </div>
+          <div class="term-block">
+            <strong>Argus 中的作用：</strong>本地验证 Pod、Service、ConfigMap、migration job、Kafka topic bootstrap 等。
+          </div>
+          <div class="term-block">
+            <strong>面试说法：</strong>“Local Kubernetes gave me orchestration validation before spending cloud budget.”
+          </div>
+        </div>
+
+        <div class="term-card">
+          <h3>AWS EC2 / ECR / SSM / IAM / 上云核心组件</h3>
+          <span class="tag">AWS</span>
+          <div class="term-block">
+            <strong>English:</strong> EC2 runs the compute instance; ECR stores container images; SSM provides access without opening SSH; IAM controls permissions.
+          </div>
+          <div class="term-block">
+            <strong>中文小白解释：</strong>EC2 是云服务器；ECR 是镜像仓库；SSM 是不开 SSH 也能连接机器；IAM 是权限系统。
+          </div>
+          <div class="term-block">
+            <strong>Argus 中的作用：</strong>短时 AWS smoke 用 Terraform 创建 EC2，拉取 ECR Git-SHA 镜像，通过 SSM 访问并验收，最后销毁并查残留。
+          </div>
+          <div class="term-block">
+            <strong>面试说法：</strong>“I used AWS to prove deployability and operations hygiene, not to claim production HA.”
+          </div>
+        </div>
+
+        <div class="term-card">
+          <h3>EKS / MSK / AWS 托管 Kubernetes 与托管 Kafka</h3>
+          <span class="tag">AWS</span><span class="tag">Future Path</span>
+          <div class="term-block">
+            <strong>English:</strong> EKS is managed Kubernetes on AWS. MSK is managed Kafka on AWS.
+          </div>
+          <div class="term-block">
+            <strong>中文小白解释：</strong>EKS 让 AWS 帮你管 K8s 控制面；MSK 让 AWS 帮你管 Kafka 集群。它们适合更生产化的场景，但更贵、更复杂。
+          </div>
+          <div class="term-block">
+            <strong>Argus 中的作用：</strong>设计和学习过 EKS/MSK 路线；当前真实短时 smoke 主要是 EC2/Docker，不应夸大成生产 EKS/MSK。
+          </div>
+          <div class="term-block">
+            <strong>面试说法：</strong>“I understand the EKS/MSK path, but scoped the actual smoke to EC2 for cost and account constraints.”
+          </div>
+        </div>
+
+        <div class="term-card">
+          <h3>Terraform plan/apply/destroy / 基础设施即代码</h3>
+          <span class="tag">IaC</span><span class="tag">Cloud</span>
+          <div class="term-block">
+            <strong>English:</strong> Terraform defines cloud infrastructure as code. <code>plan</code> previews changes, <code>apply</code> creates them, and <code>destroy</code> removes them.
+          </div>
+          <div class="term-block">
+            <strong>中文小白解释：</strong>Terraform 像一份“云资源施工图”。Plan 是预览要建什么，Apply 是真的开工，Destroy 是拆掉避免继续计费。
+          </div>
+          <div class="term-block">
+            <strong>Argus 中的作用：</strong>AWS EC2 smoke 前先审 plan 和成本，验收后 destroy，再做 residual audit。
+          </div>
+          <div class="term-block">
+            <strong>面试说法：</strong>“I treated destroy and residual audit as part of delivery, not an afterthought.”
+          </div>
+        </div>
+
+        <div class="term-card">
+          <h3>API Usage Ledger / API 用量账本</h3>
+          <span class="tag">Cost</span><span class="tag">Audit</span>
+          <div class="term-block">
+            <strong>English:</strong> A durable usage ledger stores external API calls, token counts, price snapshots, status, and estimated cost independent of deletable Runs.
+          </div>
+          <div class="term-block">
+            <strong>中文小白解释：</strong>Run 可以删，但已经花过的钱不能当没发生。账本要单独保存，不能跟临时调试记录一起删。
+          </div>
+          <div class="term-block">
+            <strong>Argus 中的作用：</strong>修复了删除 Run 导致历史 Token/成本记录丢失的问题。
+          </div>
+          <div class="term-block">
+            <strong>面试说法：</strong>“I separated debugging traces from durable billing telemetry after reconciling against provider dashboards.”
+          </div>
+        </div>
+
+        <div class="term-card">
+          <h3>Provider Billing Snapshot / 供应商账单快照</h3>
+          <span class="tag">Cost</span>
+          <div class="term-block">
+            <strong>English:</strong> A provider billing snapshot is an imported or refreshed view of what the vendor reports, separate from Argus estimates.
+          </div>
+          <div class="term-block">
+            <strong>中文小白解释：</strong>Argus 自己估算不等于官方扣费。最终以 DeepSeek/Kimi/Gemini/Exa 官方后台为准。
+          </div>
+          <div class="term-block">
+            <strong>Argus 中的作用：</strong>DeepSeek 可导入 usage ZIP，Kimi/DeepSeek 可刷新余额，Exa/Gemini 需要按供应商能力区分处理。
+          </div>
+          <div class="term-block">
+            <strong>面试说法：</strong>“Estimated cost is telemetry; provider billing is the source of truth.”
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="product">
+      <h2>4. Product &amp; business Q&amp;A / 产品与业务</h2>
+
+      <article class="card qa">
+        <h3>Q1. What problem does Argus solve? / Argus 解决什么问题？</h3>
+        <div class="two-col">
+          <div class="en">
+            <span class="label">English answer</span>
+            <p>
+              Argus solves the gap between generic market commentary and a user's own financial
+              context. Most public investment content is not personalized and often lacks traceable
+              evidence. Argus combines user-provided documents, broker holdings, profile constraints,
+              cash goals, and current evidence to produce decision-support outputs that are grounded,
+              auditable, and user-controlled.
+            </p>
+          </div>
+          <div class="cn">
+            <span class="label">中文讲解</span>
+            <p>
+              它解决的是“网上投资建议很泛泛，但用户真正需要结合自己的钱、年龄、风险承受能力、
+              现金目标和持仓情况”的问题。Argus 不替用户交易，而是把研究证据、持仓和个人约束
+              结合起来，给出可解释、可复核的建议候选。
+            </p>
+          </div>
+        </div>
+        <div class="terms">Terms：Decision support（决策支持，不等于代客理财）、Personalization（个性化）、Traceability（可追溯）。</div>
+      </article>
+
+      <article class="card qa">
+        <h3>Q2. Why split Research, Invest Suggestions, and Money Planning? / 为什么拆成研究、投资建议、现金规划？</h3>
+        <div class="two-col">
+          <div class="en">
+            <span class="label">English answer</span>
+            <p>
+              They answer different user questions. Research asks, “What does the evidence say?”
+              Investment Suggestions asks, “What should I review in my portfolio?” Money Planning
+              asks, “What future cash needs must I prepare for?” They share inputs, but their time
+              horizons and risk models differ, so I separated the detailed workspaces while keeping
+              summary constraints visible across modules.
+            </p>
+          </div>
+          <div class="cn">
+            <span class="label">中文讲解</span>
+            <p>
+              Research 是找证据和生成研报；Invest Suggestions 是根据持仓、Profile 和市场情况看
+              是否需要调仓、补配置、定投；Money Planning 是算应急金、学费、旅行、退休资金。
+              它们共用数据，但任务不同，拆开后页面更清晰。
+            </p>
+          </div>
+        </div>
+        <div class="terms">
+          <strong>Key terms / 关键词：</strong>Information architecture（信息架构）、user workflow（用户路径）、
+          time horizon（时间跨度）、cash constraint（现金约束）。
+        </div>
+      </article>
+
+      <article class="card qa">
+        <h3>Q3. Is Argus giving financial advice? / Argus 是在提供投资建议吗？</h3>
+        <div class="two-col">
+          <div class="en">
+            <span class="label">English answer</span>
+            <p>
+              I describe Argus as investment research and decision support, not an autonomous
+              advisor or trading system. It generates candidates, warnings, calculations, and
+              source-backed explanations. It does not place trades, guarantee suitability, or
+              override user judgment. The UI explicitly distinguishes deterministic calculations
+              from optional AI market analysis.
+            </p>
+          </div>
+          <div class="cn">
+            <span class="label">中文讲解</span>
+            <p>
+              简历和面试中尽量说“decision-support / research system”，不要说“自动投资顾问”。
+              它可以给候选和参考，但不替用户下单，也不承诺适合所有人。这样更准确，也更合规。
+            </p>
+          </div>
+        </div>
+        <div class="terms">
+          <strong>Key terms / 关键词：</strong>Decision support（决策支持）、suitability（适配性）、
+          autonomous trading（自动交易）、deterministic calculation（确定性计算）。
+        </div>
+      </article>
+    </section>
+
+    <section id="research">
+      <h2>5. Research engine Q&amp;A / 研究引擎</h2>
+
+      <article class="card qa">
+        <h3>Q4. How does the Research module work? / Research 模块怎么工作？</h3>
+        <div class="two-col">
+          <div class="en">
+            <span class="label">English answer</span>
+            <p>
+              The Research module first retrieves evidence from uploaded documents and/or Exa web
+              search. Then the Evidence Gate checks whether the retrieved passages directly support
+              the question. Only accepted evidence is sent to the selected answer model. The model
+              writes the answer, but citations and report eligibility are validated by Argus instead
+              of being trusted blindly.
+            </p>
+          </div>
+          <div class="cn">
+            <span class="label">中文讲解</span>
+            <p>
+              流程是：先找资料 → 检查资料是否真的支持问题 → 再让用户选择的模型基于资料回答 →
+              再校验引用。这样不是“模型想说什么就说什么”，而是让模型在证据框里组织语言。
+            </p>
+          </div>
+        </div>
+        <div class="flow">Question
+  → Local retrieval and/or Exa web search
+  → Evidence Gate
+  → Selected answer model
+  → Claim/citation validation
+  → Answer or safe stop
+  → Optional report only if report_eligible=true</div>
+        <div class="terms">
+          <strong>Key terms / 关键词：</strong>RAG（检索增强生成）、Evidence Gate（证据门）、
+          citation verifier（引用校验器）、safe stop（安全停止）、report eligibility（报告生成资格）。
+        </div>
+      </article>
+
+      <article class="card qa">
+        <h3>Q5. Why add Exa instead of relying only on uploaded files? / 为什么不能只靠上传文档？</h3>
+        <div class="two-col">
+          <div class="en">
+            <span class="label">English answer</span>
+            <p>
+              Uploaded documents are good for private or specific evidence, but many investment
+              questions require current public context. Exa gives Argus an independent search layer
+              that returns direct URLs before any answer model is called. This separates search from
+              generation and avoids depending on a model provider's unstable built-in web search.
+            </p>
+          </div>
+          <div class="cn">
+            <span class="label">中文讲解</span>
+            <p>
+              本地文档只能回答文档里有的信息。问市场、ETF、宏观背景时，需要外部网页证据。
+              Exa 的作用是“先找网页证据”，模型只负责组织答案。这样即使 Kimi/Gemini 自带联网不稳定，
+              Argus 也不会被某个模型的搜索能力锁死。
+            </p>
+          </div>
+        </div>
+        <div class="terms">
+          <strong>Key terms / 关键词：</strong>Independent web search（独立网页搜索）、direct URL evidence（直接 URL 证据）、
+          provider lock-in（供应商锁定）、search-generation separation（搜索与生成解耦）。
+        </div>
+      </article>
+
+      <article class="card qa">
+        <h3>Q6. Why not let the LLM search, decide, and write everything? / 为什么不全交给模型？</h3>
+        <div class="two-col">
+          <div class="en">
+            <span class="label">English answer</span>
+            <p>
+              Because that makes cost, evidence, and correctness hard to control. Argus separates
+              retrieval, evidence validation, deterministic calculations, and natural-language
+              synthesis. The model can explain accepted facts, but it cannot silently choose another
+              provider, invent citations, or calculate trade amounts.
+            </p>
+          </div>
+          <div class="cn">
+            <span class="label">中文讲解</span>
+            <p>
+              如果全给模型，用户不知道它查了什么、花了多少钱、数字怎么来的。Argus 把“查证据、
+              算数字、写解释”拆开，模型负责表达，关键数字和通过/拒绝规则由程序控制。
+            </p>
+          </div>
+        </div>
+        <div class="terms">
+          <strong>Key terms / 关键词：</strong>LLM boundary（模型边界）、cost control（成本控制）、
+          deterministic service（确定性服务）、hallucination risk（幻觉风险）。
+        </div>
+      </article>
+
+      <article class="card qa">
+        <h3>Q7. When can Argus generate an HTML report? / 什么情况下能生成 HTML 报告？</h3>
+        <div class="two-col">
+          <div class="en">
+            <span class="label">English answer</span>
+            <p>
+              A report must come from a completed Ask Run. The Evidence Gate must pass, accepted
+              citations or structured data must exist, the answer must be complete and substantive,
+              and the local critic must not flag unsupported claims. If the answer is a fragment,
+              a refusal, or weakly supported, Argus blocks report generation instead of inflating it
+              into a repetitive report.
+            </p>
+          </div>
+          <div class="cn">
+            <span class="label">中文讲解</span>
+            <p>
+              报告门槛偏严格是故意的。因为一个残句、弱证据或没有引用的回答，不应该被包装成像样的研报。
+              这保护可信度。短答案可以显示，但不一定 report-ready。
+            </p>
+          </div>
+        </div>
+        <div class="terms">
+          <strong>Key terms / 关键词：</strong>Ask Run（一次问答运行）、local critic（本地证据审查器）、
+          structured claim（结构化论点）、weak evidence（弱证据）。
+        </div>
+      </article>
+
+      <article class="card qa">
+        <h3>Q8. What are Method Packs? / Method Pack 是什么？</h3>
+        <div class="two-col">
+          <div class="en">
+            <span class="label">English answer</span>
+            <p>
+              Method Packs are research lenses, not evidence. A base framework and optional expert
+              method add-ons can influence what questions Argus asks, what evidence slots it tries
+              to fill, and how reports are organized. They never become factual citations and cannot
+              override Evidence Gate, cost limits, or deterministic portfolio rules.
+            </p>
+          </div>
+          <div class="cn">
+            <span class="label">中文讲解</span>
+            <p>
+              Method Pack 像“分析方法论”，不是“事实来源”。例如某专家的研究框架可以提醒系统多看
+              产业链、估值、反方证据，但不能把专家文字当成市场事实，也不能越过证据校验。
+            </p>
+          </div>
+        </div>
+        <div class="terms">
+          <strong>Key terms / 关键词：</strong>Method Pack（方法包）、research lens（研究视角）、
+          evidence slot（证据槽位）、prompt-control instruction（提示控制指令）。
+        </div>
+      </article>
+    </section>
+
+    <section id="portfolio">
+      <h2>6. Portfolio &amp; planning Q&amp;A / 投资与现金规划</h2>
+
+      <article class="card qa">
+        <h3>Q9. Why is portfolio math deterministic? / 为什么投资组合计算不用模型算？</h3>
+        <div class="two-col">
+          <div class="en">
+            <span class="label">English answer</span>
+            <p>
+              Portfolio weights, target gaps, rebalancing dollars, share estimates, and DCA amounts
+              must be reproducible. If an LLM calculates them, the same input may produce different
+              outputs. Argus uses deterministic Python rules for calculations and lets the model only
+              explain accepted context or summarize market evidence.
+            </p>
+          </div>
+          <div class="cn">
+            <span class="label">中文讲解</span>
+            <p>
+              调仓金额、股数、权重不能靠模型“感觉”。同一份持仓和 Profile 应该算出同样结果。
+              模型可以解释市场背景，但不能偷偷改数字。
+            </p>
+          </div>
+        </div>
+        <div class="terms">
+          <strong>Key terms / 关键词：</strong>Reproducibility（可复现性）、portfolio weight（组合权重）、
+          target gap（目标缺口）、LLM synthesis（模型表达/总结）。
+        </div>
+      </article>
+
+      <article class="card qa">
+        <h3>Q10. How are rebalancing suggestions generated? / 调仓建议怎么生成？</h3>
+        <div class="two-col">
+          <div class="en">
+            <span class="label">English answer</span>
+            <p>
+              Argus reads the latest holdings snapshot, maps assets to classes, compares current
+              weights with the saved Profile targets, applies drift thresholds, and converts gaps
+              into dollar and share estimates using available prices. It also shows constraints such
+              as missing current quotes, tax uncertainty, concentration, and whether new contributions
+              should be used before selling.
+            </p>
+          </div>
+          <div class="cn">
+            <span class="label">中文讲解</span>
+            <p>
+              它不是直接说“买/卖”。它先算当前每类资产占比，再和用户保存的目标比例比，看偏离多少。
+              超过阈值才给金额和股数估算，同时提示税、报价、集中度等限制。
+            </p>
+          </div>
+        </div>
+        <div class="terms">
+          <strong>Key terms / 关键词：</strong>Holdings snapshot（持仓快照）、asset class（资产类别）、
+          drift threshold（偏离阈值）、tax uncertainty（税务不确定性）。
+        </div>
+      </article>
+
+      <article class="card qa">
+        <h3>Q11. What does DCA mean in Argus? / DCA 定投是什么意思？</h3>
+        <div class="two-col">
+          <div class="en">
+            <span class="label">English answer</span>
+            <p>
+              DCA means dollar-cost averaging: investing a fixed amount on a recurring schedule.
+              In Argus, DCA is used to direct new monthly money toward underweight asset classes or
+              selected ETF candidates before considering sales. It is not an instruction to trade
+              automatically.
+            </p>
+          </div>
+          <div class="cn">
+            <span class="label">中文讲解</span>
+            <p>
+              DCA 就是“定期定额投资”。Argus 里它表示：如果每月有新钱，优先补当前低配的资产，
+              尽量减少卖出带来的税和交易问题。它不是自动下单。
+            </p>
+          </div>
+        </div>
+        <div class="terms">
+          <strong>Key terms / 关键词：</strong>DCA（定期定额投资）、recurring contribution（定期投入）、
+          underweight asset（低配资产）、not automatic trading（不是自动交易）。
+        </div>
+      </article>
+
+      <article class="card qa">
+        <h3>Q12. How does Argus choose ETF candidates? / ETF 候选怎么选？</h3>
+        <div class="two-col">
+          <div class="en">
+            <span class="label">English answer</span>
+            <p>
+              The current direction is to keep ETF eligibility and ranking in deterministic code.
+              The scoring considers hard eligibility, profile and holdings fit, timestamped market
+              evidence, evidence quality, overlap, concentration risk, fee, liquidity, and fixed
+              ranking rules. The model can explain why a candidate passed or failed, but it should
+              not own the final ranking.
+            </p>
+          </div>
+          <div class="cn">
+            <span class="label">中文讲解</span>
+            <p>
+              早期让模型推荐 ETF，结果不同模型会给不同答案，不稳定。后续把“选什么”收回到可解释
+              评分层：先用硬规则筛，再按个人持仓、市场证据、费用、流动性、重叠风险排序。
+              模型只解释“为什么”。
+            </p>
+          </div>
+        </div>
+        <div class="terms">
+          <strong>Key terms / 关键词：</strong>ETF universe（ETF 候选池）、eligibility check（资格检查）、
+          deterministic ranking（确定性排序）、overlap risk（重叠风险）、liquidity（流动性）。
+        </div>
+      </article>
+
+      <article class="card qa">
+        <h3>Q13. What does Money Planning calculate? / Money Planning 算什么？</h3>
+        <div class="two-col">
+          <div class="en">
+            <span class="label">English answer</span>
+            <p>
+              Money Planning separates short-term cash goals from retirement funding. Short-term
+              goals cover emergency funds and dated expenses such as education, medical care, or
+              travel. Retirement funding back-solves the amount and contribution path needed to
+              support retirement spending assumptions. These calculations constrain investment
+              suggestions because money needed soon should not be treated the same as long-term risk
+              capital.
+            </p>
+          </div>
+          <div class="cn">
+            <span class="label">中文讲解</span>
+            <p>
+              短期现金目标是“几个月内要花的钱”；退休倒推是“退休后长期要花的钱”。两者都影响投资：
+              近期要用的钱不应该被系统随便建议投入高波动资产。
+            </p>
+          </div>
+        </div>
+        <div class="terms">
+          <strong>Key terms / 关键词：</strong>Short-term cash goal（短期现金目标）、retirement back-solve（退休资金倒推）、
+          household cash flow（家庭现金流）、risk capital（可承担风险的长期资金）。
+        </div>
+      </article>
+    </section>
+
+    <section id="mcp">
+      <h2>7. Robinhood MCP &amp; market data / Robinhood 与行情</h2>
+
+      <article class="card qa">
+        <h3>Q14. How is Robinhood integrated safely? / Robinhood 如何安全接入？</h3>
+        <div class="two-col">
+          <div class="en">
+            <span class="label">English answer</span>
+            <p>
+              Robinhood is integrated through a local sidecar that connects to the official MCP
+              server. Argus uses a strict read-only allowlist for positions and quotes. It does not
+              expose order, option, watchlist-mutation, transfer, banking, or margin tools to the
+              business layer. Responses are schema-validated, redacted, and committed only as
+              source-aware snapshots.
+            </p>
+          </div>
+          <div class="cn">
+            <span class="label">中文讲解</span>
+            <p>
+              Robinhood 官方 MCP 暴露的工具很多，包括下单相关工具。Argus 不靠“提示词禁止交易”，
+              而是在代码层只允许读取持仓和报价。危险工具从业务层根本不可达。
+            </p>
+          </div>
+        </div>
+        <div class="terms">
+          <strong>Key terms / 关键词：</strong>MCP（模型上下文协议）、sidecar（边车进程）、
+          read-only allowlist（只读白名单）、schema validation（结构校验）、source-aware snapshot（带来源的快照）。
+        </div>
+      </article>
+
+      <article class="card qa">
+        <h3>Q15. Why separate PortfolioSource and MarketDataSource? / 为什么持仓来源和行情来源要分开？</h3>
+        <div class="two-col">
+          <div class="en">
+            <span class="label">English answer</span>
+            <p>
+              Holdings answer “what the user owns.” Market data answers “what prices and volumes are
+              doing now.” A broker may provide both, but the system should not be locked to one broker.
+              File upload remains the privacy-first default; Robinhood can supply read-only holdings
+              and quotes; future providers can supply market data through the same interface.
+            </p>
+          </div>
+          <div class="cn">
+            <span class="label">中文讲解</span>
+            <p>
+              持仓是“我有什么”，行情是“市场现在怎么样”。Robinhood 可能两者都能给，但系统不应该
+              被 Robinhood 锁死。以后可以换 TwelveData、Alpha Vantage 等行情源。
+            </p>
+          </div>
+        </div>
+        <div class="terms">
+          <strong>Key terms / 关键词：</strong>PortfolioSource（持仓来源接口）、MarketDataSource（行情来源接口）、
+          provider abstraction（供应商抽象）、privacy-first fallback（隐私优先 fallback）。
+        </div>
+      </article>
+
+      <article class="card qa">
+        <h3>Q16. What is the ETF HeatmapMatrix? / ETF 热力矩阵是什么？</h3>
+        <div class="two-col">
+          <div class="en">
+            <span class="label">English answer</span>
+            <p>
+              The HeatmapMatrix is a market-data view of the ETF universe. It groups ETFs by sector
+              or industry, uses red/green background color for daily price moves, and overlays neutral
+              badges for holding status or recommendation status. It deliberately separates “price is
+              moving” from “Argus recommends it,” so users do not confuse market momentum with a buy
+              instruction.
+            </p>
+          </div>
+          <div class="cn">
+            <span class="label">中文讲解</span>
+            <p>
+              Heatmap 是看行情和持仓关系的可视化，不等于推荐买入。红绿表示涨跌，徽标表示是否持有、
+              是否相关股票暴露、是否进入推荐候选。推荐逻辑仍在证据和评分层。
+            </p>
+          </div>
+        </div>
+        <div class="terms">
+          <strong>Key terms / 关键词：</strong>HeatmapMatrix（热力矩阵）、daily price move（日内涨跌）、
+          holding badge（持仓徽标）、recommendation badge（推荐徽标）、volume activity（成交量活跃度）。
+        </div>
+      </article>
+    </section>
+
+    <section id="events">
+      <h2>8. Redis, Kafka, Worker / 后台任务与事件</h2>
+
+      <article class="card qa">
+        <h3>Q17. Why use Redis if the API can run the task directly? / API 为什么不直接执行后台任务？</h3>
+        <div class="two-col">
+          <div class="en">
+            <span class="label">English answer</span>
+            <p>
+              Long-running tasks can block API requests, make browser timeouts more likely, and make
+              retries harder. Redis acts as a queue: the API records the request quickly, returns to
+              the user, and a Worker processes the task separately. This improves responsiveness and
+              isolates failures from the web request path.
+            </p>
+          </div>
+          <div class="cn">
+            <span class="label">中文讲解</span>
+            <p>
+              API 像前台窗口，Worker 像后台办事员。耗时任务不应该让前台窗口卡住。Redis 负责排队，
+              Worker 慢慢处理，失败也更容易重试。
+            </p>
+          </div>
+        </div>
+        <div class="terms">
+          <strong>Key terms / 关键词：</strong>Queue（队列）、background job（后台任务）、
+          API request path（API 请求路径）、retry（重试）、failure isolation（故障隔离）。
+        </div>
+      </article>
+
+      <article class="card qa">
+        <h3>Q18. Why add Kafka if Redis and PostgreSQL already exist? / 已有 Redis 和 PostgreSQL，为什么还要 Kafka？</h3>
+        <div class="two-col">
+          <div class="en">
+            <span class="label">English answer</span>
+            <p>
+              Redis is for work queues; PostgreSQL is the source of truth; Kafka is for durable event
+              notification and downstream consumers. In Argus, a Research Run publishes
+              <code>agent.run.completed.v1</code> or <code>agent.run.failed.v1</code>. A consumer builds
+              an audit/metrics projection, deduplicates repeated events, and isolates invalid events
+              into a DLQ. The system can work without Kafka today, but Kafka teaches and prepares the
+              architecture for independent consumers such as notifications, analytics, and compliance
+              audit.
+            </p>
+          </div>
+          <div class="cn">
+            <span class="label">中文讲解</span>
+            <p>
+              Redis 是“任务排队”，PostgreSQL 是“正式账本”，Kafka 是“事件广播”。现在只有一个 Consumer，
+              所以不是业务必需，但它展示了事件驱动、去重、DLQ、offset/lag 等后端知识，也为以后多
+              Consumer 做准备。面试里要承认：小项目不用 Kafka 也能跑；这里是为了可审计事件流和学习扩展设计。
+            </p>
+          </div>
+        </div>
+        <div class="terms">
+          <strong>Key terms / 关键词：</strong>Event streaming（事件流）、producer（生产者）、consumer（消费者）、
+          deduplication（去重）、DLQ（死信队列）、audit projection（审计投影）。
+        </div>
+      </article>
+
+      <article class="card qa">
+        <h3>Q19. What do producer, consumer, heartbeat, DLQ, offset, and lag mean? / Kafka 页面术语解释</h3>
+        <div class="two-col">
+          <div class="en">
+            <span class="label">English answer</span>
+            <p>
+              These are Kafka operations terms. The API is the producer because it publishes run
+              events. The audit service is the consumer because it reads those events. Heartbeat
+              shows the consumer is alive. Offset shows where the consumer is in the log. Lag shows
+              how many messages remain unprocessed. DLQ stores bad messages that should not block
+              normal processing.
+            </p>
+          </div>
+          <div class="cn">
+            <span class="label">中文讲解</span>
+            <p>
+              这题考 Kafka 运维基础。API 发消息，所以是 Producer；审计进程收消息，所以是 Consumer。
+              Heartbeat 证明 Consumer 还活着；Offset 是读到第几条；Lag 是还积压几条；
+              DLQ 是坏消息隔离区。
+            </p>
+          </div>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>Term</th>
+              <th>中文</th>
+              <th>Argus meaning</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Producer</td>
+              <td>生产者</td>
+              <td>API 后端。Run 完成或失败后向 Kafka 发消息。</td>
+            </tr>
+            <tr>
+              <td>Consumer</td>
+              <td>消费者</td>
+              <td>审计/指标进程。读取 Kafka 消息并更新 Runs 页面投影。</td>
+            </tr>
+            <tr>
+              <td>Heartbeat</td>
+              <td>心跳</td>
+              <td>Consumer 定期证明“我还活着，还在处理消息”。</td>
+            </tr>
+            <tr>
+              <td>DLQ</td>
+              <td>死信队列</td>
+              <td>格式错误或处理失败的消息隔离区。</td>
+            </tr>
+            <tr>
+              <td>Offset</td>
+              <td>消息位置</td>
+              <td>Kafka 中某条消息的序号。</td>
+            </tr>
+            <tr>
+              <td>Lag</td>
+              <td>积压</td>
+              <td>Consumer 落后 Kafka 多少条消息；越大说明处理跟不上。</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="terms">
+          <strong>Key terms / 关键词：</strong>Kafka position（消息位置）、consumer lag（消费延迟/积压）、
+          heartbeat（心跳）、operational monitoring（运维监控）。
+        </div>
+      </article>
+    </section>
+
+    <section id="cloud">
+      <h2>9. Docker, Kubernetes, AWS / 本地与云部署</h2>
+
+      <article class="card qa">
+        <h3>Q20. What did Docker validate? / Docker 验证了什么？</h3>
+        <div class="two-col">
+          <div class="en">
+            <span class="label">English answer</span>
+            <p>
+              Docker packaged the frontend, backend, database, Redis, Kafka, worker, and consumer into
+              repeatable local services. It proved the application could run outside the developer's
+              Python/Node environment and that service-to-service configuration was explicit.
+            </p>
+          </div>
+          <div class="cn">
+            <span class="label">中文讲解</span>
+            <p>
+              Docker 不是云，它是把程序和依赖打包成容器。它证明项目不是只能在你电脑的特殊环境跑。
+            </p>
+          </div>
+        </div>
+        <div class="terms">
+          <strong>Key terms / 关键词：</strong>Container（容器）、Docker image（镜像）、service-to-service configuration（服务间配置）、
+          repeatable environment（可重复环境）。
+        </div>
+      </article>
+
+      <article class="card qa">
+        <h3>Q21. What is local Kubernetes validation? / 本地 Kubernetes 验证是什么？</h3>
+        <div class="two-col">
+          <div class="en">
+            <span class="label">English answer</span>
+            <p>
+              I used local Kubernetes to validate container orchestration concepts before cloud
+              deployment: Pods, Services, ConfigMaps, migrations, topic bootstrap jobs, worker and
+              consumer processes, port-forwarding, and recovery behavior. It is Kubernetes learning
+              and deployment validation, not a claim of production-grade EKS.
+            </p>
+          </div>
+          <div class="cn">
+            <span class="label">中文讲解</span>
+            <p>
+              kind + Kustomize 是本地 K8s 验证工具。K8s 是平台，kind 是本地跑 K8s 的方式，
+              Kustomize 是管理 YAML 配置的方式。简历可以写 local Kubernetes，但面试要能解释具体是
+              kind/Kustomize，不要说成生产云集群。
+            </p>
+          </div>
+        </div>
+        <div class="terms">
+          <strong>Key terms / 关键词：</strong>Kubernetes（容器编排）、Pod、Service、ConfigMap、kind、Kustomize、port-forward。
+        </div>
+      </article>
+
+      <article class="card qa">
+        <h3>Q22. What did the AWS deployment prove? / AWS 上云证明了什么？</h3>
+        <div class="two-col">
+          <div class="en">
+            <span class="label">English answer</span>
+            <p>
+              The AWS EC2 smoke proved that Argus could run from reviewed infrastructure and immutable
+              container images in a real cloud account. I used Terraform, ECR images tagged by Git SHA,
+              SSM-only access, no inbound security-group rules, an EC2 instance role, migration checks,
+              Kafka acceptance checks, browser verification through port forwarding, and teardown with
+              residual audits. I do not describe it as production HA.
+            </p>
+          </div>
+          <div class="cn">
+            <span class="label">中文讲解</span>
+            <p>
+              这次上云是短时 smoke test：证明能在真实 AWS 账户部署、验收、销毁。不是生产环境。
+              重点是安全边界、成本控制、可复现镜像、迁移检查、Kafka 验收和销毁后查残留资源。
+            </p>
+          </div>
+        </div>
+        <div class="terms">
+          <strong>Key terms / 关键词：</strong>Terraform、EC2、ECR、SSM、IAM instance role（实例角色）、
+          migration check（迁移检查）、residual audit（残留审计）。
+        </div>
+      </article>
+
+      <article class="card qa">
+        <h3>Q23. Why not use EKS/MSK for the short smoke? / 为什么短时上云不用 EKS/MSK？</h3>
+        <div class="two-col">
+          <div class="en">
+            <span class="label">English answer</span>
+            <p>
+              EKS and MSK are valuable for production-scale managed orchestration and streaming, but
+              they add cost, setup time, and account limitations. For a short learning smoke under a
+              tight budget, one EC2 instance with Docker was the safer scope. I still designed and
+              learned the EKS/MSK path, but I do not claim this smoke used managed Kubernetes or MSK.
+            </p>
+          </div>
+          <div class="cn">
+            <span class="label">中文讲解</span>
+            <p>
+              EKS 是 AWS 托管 Kubernetes，MSK 是 AWS 托管 Kafka。它们更像生产级组件。
+              预算小、时间短、账号限制多时，EC2/Docker 更合适。面试里这反而体现 trade-off：
+              不是为了简历强行堆云服务。
+            </p>
+          </div>
+        </div>
+        <div class="terms">
+          <strong>Key terms / 关键词：</strong>EKS（AWS 托管 Kubernetes）、MSK（AWS 托管 Kafka）、
+          scope control（范围控制）、cost constraint（成本约束）、production HA（生产高可用）。
+        </div>
+      </article>
+    </section>
+
+    <section id="cost">
+      <h2>10. Cost, billing, observability / 成本与审计</h2>
+
+      <article class="card qa">
+        <h3>Q24. How does Argus track model cost? / Argus 如何追踪模型成本？</h3>
+        <div class="two-col">
+          <div class="en">
+            <span class="label">English answer</span>
+            <p>
+              Argus records model calls with provider, model, input tokens, output tokens, status,
+              latency, and call-time price snapshots. The formula is:
+              <code>input_tokens × input_price / 1M + output_tokens × output_price / 1M</code>.
+              Estimated cost is operational telemetry; provider billing remains the source of truth.
+            </p>
+          </div>
+          <div class="cn">
+            <span class="label">中文讲解</span>
+            <p>
+              页面上的成本是估算，不是官方账单。公式就是输入 Token 乘输入单价，加输出 Token 乘输出单价。
+              真正扣费以 DeepSeek/Kimi/Gemini/Exa 官方后台为准。
+            </p>
+          </div>
+        </div>
+        <div class="terms">
+          <strong>Key terms / 关键词：</strong>Token（模型计费单位）、call-time price snapshot（调用时单价快照）、
+          estimated cost（估算成本）、provider billing（供应商账单）。
+        </div>
+      </article>
+
+      <article class="card qa">
+        <h3>Q25. What cost-audit bug did you find and fix? / 成本审计发现过什么重大问题？</h3>
+        <div class="two-col">
+          <div class="en">
+            <span class="label">English answer</span>
+            <p>
+              I found that historical token usage was being aggregated from Run-scoped model traces.
+              Because Runs can be deleted, deleting Runs could also delete local cost history even
+              though the provider had already billed the requests. The fix was to separate deletable
+              Run traces from an independent API Usage Ledger that survives Run and Evidence deletion.
+            </p>
+          </div>
+          <div class="cn">
+            <span class="label">中文讲解</span>
+            <p>
+              旧设计把“调试轨迹”和“历史用量账本”混在一起。删 Run 会把本地 Token 记录删掉，
+              但供应商不会退钱。修复是单独建 API Usage Ledger，删除 Run 不影响历史用量。
+            </p>
+          </div>
+        </div>
+        <div class="terms">
+          <strong>Key terms / 关键词：</strong>Run-scoped trace（随 Run 删除的轨迹）、durable ledger（持久账本）、
+          data lifecycle（数据生命周期）、reconciliation（对账）。
+        </div>
+      </article>
+
+      <article class="card qa">
+        <h3>Q26. What is the difference between Retained Run usage, Historical API usage, and Provider actual billing?</h3>
+        <div class="two-col">
+          <div class="en">
+            <span class="label">English answer</span>
+            <p>
+              These are three different accounting layers. Retained Run usage is for debugging
+              currently stored runs. Historical API usage is Argus's durable internal ledger and
+              survives Run deletion. Provider actual billing is the vendor's official bill or
+              statement and remains the final source of truth.
+            </p>
+          </div>
+          <div class="cn">
+            <span class="label">中文讲解</span>
+            <p>
+              这三层不能混在一起。当前 Run 用量适合调试；历史 API 用量是 Argus 自己的长期账本；
+              供应商实际账单才是最终扣费依据。之前的重大 bug 就是把可删除的 Run 轨迹误当成历史成本账本。
+            </p>
+          </div>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>Layer</th>
+              <th>中文</th>
+              <th>Meaning</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Retained Run usage</td>
+              <td>当前保留 Run 的用量</td>
+              <td>只统计数据库里还没删除的运行记录，适合调试。</td>
+            </tr>
+            <tr>
+              <td>Historical API usage</td>
+              <td>历史累计 API 用量</td>
+              <td>独立账本，不随 Run 删除，用于 Argus 自己的长期估算。</td>
+            </tr>
+            <tr>
+              <td>Provider actual billing</td>
+              <td>供应商实际账单</td>
+              <td>官方后台/导出文件，是最终准确来源。</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="terms">
+          <strong>Key terms / 关键词：</strong>Retained usage（当前保留用量）、historical ledger（历史账本）、
+          source of truth（最终可信来源）、provider statement（供应商账单）。
+        </div>
+      </article>
+    </section>
+
+    <section id="decisions">
+      <h2>11. Key decision history / 关键决策变化</h2>
+
+      <article class="card decision">
+        <h3>Decision 1: Router-led search → Evidence-Gated minimal research loop</h3>
+        <div class="two-col">
+          <div class="en">
+            <p>
+              The first design considered a more agentic router that would decide when to search,
+              retrieve, and call models. Real testing showed that a black-box router made evidence
+              quality and cost harder to reason about. The revised design uses deterministic
+              complexity checks, bounded retrieval/search, and Evidence Gate escalation. This borrows
+              the Claude Code idea of tool-backed iteration, but keeps the loop small and auditable.
+            </p>
+          </div>
+          <div class="cn">
+            <p>
+              早期想做更复杂的 Agent Search，但实际测试发现容易冗余、成本不可控、结果仍不稳定。
+              后来改成“最小搜索循环”：先用确定规则和证据覆盖率判断是否继续搜索，不够就停。
+              这更适合当前项目。
+            </p>
+          </div>
+        </div>
+        <div class="terms">
+          <strong>Key terms / 关键词：</strong>AI coding agent（AI 编程代理）、ownership（责任归属）、
+          validation criteria（验收标准）、runbook reproducibility（操作手册可复现）。
+        </div>
+      </article>
+
+      <article class="card decision">
+        <h3>Decision 2: Model-proposed ETF candidates → deterministic ETF ranking</h3>
+        <div class="two-col">
+          <div class="en">
+            <p>
+              Different models produced different ETF candidates from similar evidence. That model
+              sensitivity is acceptable for explanation style, but not for candidate eligibility.
+              The next architecture moves ETF qualification and ranking into deterministic scoring
+              and uses models to explain accepted candidates.
+            </p>
+          </div>
+          <div class="cn">
+            <p>
+              Gemini、Kimi、DeepSeek 对 ETF 候选给出的结果不一致，说明“选什么”不能主要交给模型。
+              程序负责资格和排序，模型负责解释，这是更稳定、更可审计的设计。
+            </p>
+          </div>
+        </div>
+        <div class="terms">
+          <strong>Key terms / 关键词：</strong>Auditability（可审计性）、safety boundary（安全边界）、
+          evidence retrieval（证据检索）、natural-language explanation（自然语言解释）。
+        </div>
+      </article>
+
+      <article class="card decision">
+        <h3>Decision 3: Single-agent first → multi-agent only if evidence justifies it</h3>
+        <div class="two-col">
+          <div class="en">
+            <p>
+              Argus is single-agent first. It separates responsibilities through typed tools, state
+              machines, evidence gates, and deterministic services rather than spawning multiple
+              autonomous agents prematurely. A multi-agent architecture becomes justified only when
+              parallel specialist reasoning improves eval scores enough to offset coordination cost,
+              context fragmentation, and harder debugging.
+            </p>
+          </div>
+          <div class="cn">
+            <p>
+              当前不硬拆 multi-agent。因为一个项目刚稳定时，多 Agent 会增加通信、上下文和调试复杂度。
+              只有当评测证明“专家 Agent 协作明显更好”时，才值得拆。
+            </p>
+          </div>
+        </div>
+      </article>
+
+      <article class="card decision">
+        <h3>Decision 4: Cost traces → durable API Usage Ledger</h3>
+        <div class="two-col">
+          <div class="en">
+            <p>
+              A reconciliation gap showed that Run-scoped traces were not a reliable cost ledger.
+              The correction separates short-lived debugging traces from durable API usage history
+              and provider billing snapshots.
+            </p>
+          </div>
+          <div class="cn">
+            <p>
+              这是一个真实的设计缺陷修复。删除 Run 不能删除已经发生的 API 消费记录，所以必须分层。
+            </p>
+          </div>
+        </div>
+      </article>
+
+      <article class="card decision">
+        <h3>Decision 5: EC2 smoke instead of forcing EKS/MSK</h3>
+        <div class="two-col">
+          <div class="en">
+            <p>
+              Under a tight budget and short learning window, an EC2 Docker smoke provided the right
+              evidence: real AWS IAM, ECR, SSM, Terraform, migration checks, Kafka semantics, and
+              teardown. EKS/MSK remain valuable learning targets, but not honest claims for this
+              specific smoke.
+            </p>
+          </div>
+          <div class="cn">
+            <p>
+              这不是“降级”，而是控制范围。先用 EC2 短时部署学会云资源、IAM、镜像、SSM、销毁和验收，
+              比强行上 EKS/MSK 更稳。
+            </p>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <section id="interviewer">
+      <h2>12. Tough interviewer questions / 面试官追问</h2>
+
+      <article class="card qa">
+        <h3>Q27. Are you just using AI to vibe-code? / 这个项目是不是只是 AI 帮你写的？</h3>
+        <div class="two-col">
+          <div class="en">
+            <span class="label">English answer</span>
+            <p>
+              I used an AI coding agent as an implementation accelerator, but I owned the product
+              requirements, trade-off decisions, validation criteria, and final acceptance. The
+              strongest parts of the project are not just code volume; they are the decisions around
+              evidence gating, deterministic calculations, provider isolation, cost audit, Kafka
+              semantics, and bounded cloud deployment. I can explain the architecture and reproduce
+              the runbooks.
+            </p>
+          </div>
+          <div class="cn">
+            <span class="label">中文讲解</span>
+            <p>
+              不要否认用了 AI。诚实说：AI coding agent 是执行工具，你负责需求、判断、验收和学习。
+              重点证明你理解为什么这么做，以及能解释每个组件。
+            </p>
+          </div>
+        </div>
+        <div class="terms">
+          <strong>Key terms / 关键词：</strong>AI coding agent（AI 编程代理）、implementation accelerator（实现加速器）、
+          technical ownership（技术责任归属）、acceptance criteria（验收标准）、runbook reproducibility（手册可复现）。
+        </div>
+      </article>
+
+      <article class="card qa">
+        <h3>Q28. What was the hardest technical problem? / 最难的技术问题是什么？</h3>
+        <div class="two-col">
+          <div class="en">
+            <span class="label">English answer</span>
+            <p>
+              The hardest problem was not a single API call. It was making AI-generated investment
+              output auditable and safe. I had to separate evidence retrieval from generation,
+              deterministic math from natural-language explanation, deletable run traces from durable
+              usage ledgers, and read-only brokerage data from trading-capable MCP tools.
+            </p>
+          </div>
+          <div class="cn">
+            <span class="label">中文讲解</span>
+            <p>
+              最难不是某个库怎么用，而是“AI 金融输出如何可信”。这句话能体现你从产品和工程同时思考。
+            </p>
+          </div>
+        </div>
+        <div class="terms">
+          <strong>Key terms / 关键词：</strong>Auditability（可审计性）、evidence boundary（证据边界）、
+          deterministic calculation（确定性计算）、brokerage safety boundary（券商安全边界）。
+        </div>
+      </article>
+
+      <article class="card qa">
+        <h3>Q29. What would you improve next? / 下一步改进什么？</h3>
+        <div class="two-col">
+          <div class="en">
+            <span class="label">English answer</span>
+            <p>
+              I would focus on three areas. First, strengthen evals for research quality and ETF
+              candidate stability. Second, complete a provider-neutral market-data adapter beyond
+              Robinhood. Third, improve production readiness: remote Terraform state, CI gates,
+              vulnerability remediation, release/rollback, observability, and a clearer separation
+              between personal-use mode and multi-user hosted mode.
+            </p>
+          </div>
+          <div class="cn">
+            <span class="label">中文讲解</span>
+            <p>
+              不要说“继续加功能”。说三条：评测、数据源、生产化。这更像工程师。
+            </p>
+          </div>
+        </div>
+        <div class="terms">
+          <strong>Key terms / 关键词：</strong>Evals（评测集）、provider-neutral adapter（供应商中立适配器）、
+          CI gate（持续集成门禁）、release/rollback（发布/回滚）、observability（可观测性）。
+        </div>
+      </article>
+
+      <article class="card qa">
+        <h3>Q30. What should you not overclaim? / 哪些不能夸大？</h3>
+        <div class="two-col">
+          <div class="en">
+            <span class="label">English answer</span>
+            <p>
+              I should keep claims tied to implemented and tested behavior. Argus is a decision-support
+              and learning project, not a production financial advisor. It has read-only Robinhood
+              sync, not trading automation. It used a short-lived AWS EC2 smoke, not production EKS/MSK.
+              Its cost estimates are telemetry, not official invoices.
+            </p>
+          </div>
+          <div class="cn">
+            <span class="label">中文讲解</span>
+            <p>
+              面试里要“有边界”。可以讲已实现和验证的内容；不能把学习型 smoke test 说成生产系统，
+              不能把只读同步说成自动交易，不能把估算成本说成官方账单。
+            </p>
+          </div>
+        </div>
+        <div class="danger card">
+          <ul>
+            <li>Do not claim production-grade financial advice or autonomous trading.</li>
+            <li>不要说系统会自动下单；Robinhood 只读同步。</li>
+            <li>Do not claim this latest AWS smoke used EKS/MSK if it used EC2/Docker.</li>
+            <li>不要说 Kafka 是当前小规模业务的绝对必需；要说它用于事件驱动学习、审计和未来扩展。</li>
+            <li>Do not claim model outputs are guaranteed correct; Argus gates and audits evidence.</li>
+            <li>不要说成本估算等于官方账单；Provider billing 才是最终来源。</li>
+          </ul>
+        </div>
+        <div class="terms">
+          <strong>Key terms / 关键词：</strong>Implementation boundary（实现边界）、production readiness（生产就绪）、
+          read-only integration（只读集成）、official billing（官方账单）。
+        </div>
+      </article>
+    </section>
+
+    <section id="cheatsheet">
+      <h2>13. Final cheat sheet / 最终速记</h2>
+
+      <div class="grid">
+        <div class="card">
+          <h3>Project in one sentence</h3>
+          <p>
+            Argus is a user-controlled investment research, portfolio, and cash-planning system that
+            combines private inputs with cited evidence and deterministic calculations.
+          </p>
+          <p class="small">中文：Argus 是结合个人资料、持仓、现金目标和证据的投资研究与规划系统。</p>
+        </div>
+        <div class="card">
+          <h3>Architecture in one sentence</h3>
+          <p>
+            React frontend, FastAPI backend, PostgreSQL/pgvector RAG, Exa search, Redis jobs, Kafka
+            events, read-only Robinhood MCP, Docker/local Kubernetes/AWS EC2 validation.
+          </p>
+          <p class="small">中文：前端、后端、数据库检索、网页证据、后台任务、事件流、券商只读和部署验证。</p>
+        </div>
+        <div class="card">
+          <h3>Main engineering principle</h3>
+          <p>
+            Use LLMs for synthesis and explanation, not hidden calculations, uncontrolled search, or
+            unaudited financial actions.
+          </p>
+          <p class="small">中文：模型负责表达，不负责偷偷查、偷偷算、偷偷交易。</p>
+        </div>
+        <div class="card">
+          <h3>Best trade-off sentence</h3>
+          <p>
+            I deliberately chose a smaller, auditable architecture over a more autonomous but harder
+            to verify agent.
+          </p>
+          <p class="small">中文：宁可先做小而可审计，不做大而不可控。</p>
+        </div>
+      </div>
+
+      <div class="card warning">
+        <h3>Five answers to memorize / 建议背下来的五句话</h3>
+        <ol>
+          <li>
+            <strong>Evidence first:</strong> Argus retrieves and validates evidence before calling the answer model.
+            <br />先找证据并校验，再调用模型。
+          </li>
+          <li>
+            <strong>Deterministic math:</strong> Portfolio amounts are calculated by code, not invented by the LLM.
+            <br />调仓金额由代码算，不由模型编。
+          </li>
+          <li>
+            <strong>Provider control:</strong> The user explicitly selects the model; Argus does not silently switch providers.
+            <br />用户手动选模型，系统不偷偷切换供应商。
+          </li>
+          <li>
+            <strong>Read-only brokerage:</strong> Robinhood MCP is wrapped by a sidecar and restricted to read-only data.
+            <br />Robinhood 通过 sidecar 只读接入，交易工具不可达。
+          </li>
+          <li>
+            <strong>Honest cloud scope:</strong> The AWS smoke proved deployability and operations hygiene, not production HA.
+            <br />AWS 验证的是可部署和运维边界，不是生产高可用。
+          </li>
+        </ol>
+      </div>
+
+      <div class="card">
+        <h3>Source documents / 来源文档</h3>
+        <p>
+          This HTML is a study-focused reorganization of the existing project notes, especially
+          <code>docs/INTERVIEW_QA.md</code>, plus the architecture, local runbook, cloud handoff,
+          Kafka, Robinhood, ETF market-data, and AWS smoke sections already recorded in the repo.
+        </p>
+        <p class="small">
+          Last updated for the current Argus state: local Docker, local Kubernetes validation,
+          Kafka closed loop, Robinhood read-only MCP, Exa web evidence search, and AWS EC2 smoke deployment.
+        </p>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

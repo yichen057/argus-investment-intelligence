@@ -1,0 +1,50 @@
+.DS_Store
+.env
+.env.*
+!.env.example
+.venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.coverage
+htmlcov/
+*.db
+*.sqlite
+*.sqlite3
+*.log
+*.pem
+*.key
+*.p12
+*.pfx
+
+# Private source material and generated artifacts
+data/
+artifacts/
+reports/
+!examples/reports/
+!examples/reports/*.html
+eval-results/
+
+# Terraform generated state and provider/module cache
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfplan
+*.tfvars
+!*.tfvars.example
+crash.log
+
+# Frontend generated artifacts
+node_modules/
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/
+
+# OAuth credentials and tokens
+credentials.json
+token.json
+secrets/
+configs/local/

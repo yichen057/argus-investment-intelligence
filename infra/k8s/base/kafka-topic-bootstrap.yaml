@@ -1,0 +1,39 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: argus-kafka-topic-bootstrap
+spec:
+  backoffLimit: 3
+  ttlSecondsAfterFinished: 600
+  template:
+    metadata:
+      labels: {app: argus-kafka-topic-bootstrap}
+    spec:
+      restartPolicy: OnFailure
+      serviceAccountName: argus
+      containers:
+        - name: topic-bootstrap
+          image: ARGUS_BACKEND_IMAGE
+          command:
+            - argus-kafka-topic-bootstrap
+            - --partitions
+            - "1"
+            - --replication-factor
+            - "3"
+            - --event-retention-ms
+            - "604800000"
+            - --retry-retention-ms
+            - "86400000"
+            - --dlq-retention-ms
+            - "604800000"
+          envFrom:
+            - configMapRef: {name: argus-config}
+            - secretRef: {name: argus-secrets}
+          resources:
+            requests: {cpu: 100m, memory: 128Mi}
+            limits: {cpu: 500m, memory: 512Mi}
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            runAsUser: 1000

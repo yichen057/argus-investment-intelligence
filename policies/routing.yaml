@@ -1,0 +1,57 @@
+version: 1
+
+# Stage 1: sensitivity is a hard gate.
+sensitivity:
+  public:
+    allowed_deployments: [local, cloud]
+    requires_redaction: false
+  internal:
+    allowed_deployments: [local, cloud]
+    requires_redaction_for_cloud: true
+  restricted:
+    allowed_deployments: [local]
+    requires_redaction: false
+
+# Stage 2: the selected profile must contain every required capability.
+capabilities:
+  known:
+    - extraction
+    - summarization
+    - tool_calling
+    - structured_output
+    - long_context
+    - reasoning
+
+# Stage 3: rank only the candidates that passed both gates.
+optimization:
+  order: [quality, cost, latency]
+  prefer_smallest_passing_model: true
+  escalate_after_failed_critic: true
+  monthly_budget_usd: 5.00
+  default_run_budget_usd: 0.20
+
+profiles:
+  local_general:
+    deployment: local
+    allowed_sensitivity: [public, internal, restricted]
+    capabilities: [extraction, summarization, structured_output]
+    quality_score: 0.55
+    cost_score: 1.00
+    latency_score: 0.65
+
+  cloud_economy:
+    deployment: cloud
+    allowed_sensitivity: [public, internal]
+    capabilities: [extraction, summarization, tool_calling, structured_output]
+    quality_score: 0.70
+    cost_score: 0.90
+    latency_score: 0.85
+
+  cloud_reasoning:
+    deployment: cloud
+    allowed_sensitivity: [public, internal]
+    capabilities: [tool_calling, structured_output, long_context, reasoning]
+    quality_score: 0.95
+    cost_score: 0.45
+    latency_score: 0.50
+

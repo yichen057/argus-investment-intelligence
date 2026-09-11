@@ -1,0 +1,64 @@
+version: 1
+description: Fixed evidence set for comparing extraction and synthesis stages.
+cases:
+  - id: gold_real_yields
+    question: How can changes in U.S. real yields affect gold prices?
+    evidence:
+      - citation_id: W1
+        title: Real-yield mechanism fixture
+        text: >-
+          Gold pays no coupon. When the 10-year real yield rises, the opportunity
+          cost of holding gold increases and can weigh on gold demand; when real
+          yields fall, that opportunity cost declines. This relationship is not
+          stable in every period because central-bank purchases and geopolitical
+          demand can offset the rate channel.
+    expected_claim_terms:
+      - [real yield, opportunity cost, gold]
+      - [central-bank, geopolitical, offset]
+    required_headings:
+      - Direct answer
+      - Mechanism and drivers
+      - Supporting evidence
+      - Risks and uncertainties
+
+  - id: portfolio_concentration
+    question: What does a 30.3% gold position imply relative to a 25% review line?
+    evidence:
+      - citation_id: L1
+        title: Portfolio concentration fixture
+        text: >-
+          Gold is 30.3% of the uploaded portfolio. The Argus single-position review
+          line is 25%, so the position is 5.3 percentage points above that review
+          threshold. The line is a deterministic concentration prompt, not a
+          personalized target and not an automatic instruction to sell.
+    expected_claim_terms:
+      - [30.3%, 25%, 5.3]
+      - [review, not, sell]
+    required_headings:
+      - Direct answer
+      - Mechanism and drivers
+      - Supporting evidence
+      - Risks and uncertainties
+
+  - id: evidence_conflict
+    question: Did the company improve both revenue growth and operating margin?
+    evidence:
+      - citation_id: W1
+        title: Annual results fixture
+        text: >-
+          Revenue grew 12% year over year in 2025, while operating margin declined
+          from 18% to 15% because logistics and labor costs increased.
+      - citation_id: W2
+        title: Management outlook fixture
+        text: >-
+          Management expects logistics costs to moderate in 2026, but it did not
+          provide a numerical operating-margin target.
+    expected_claim_terms:
+      - [revenue, 12%, grew]
+      - [operating margin, 18%, 15%, declined]
+      - [2026, no, target]
+    required_headings:
+      - Direct answer
+      - Mechanism and drivers
+      - Supporting evidence
+      - Risks and uncertainties

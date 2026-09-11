@@ -1,0 +1,8 @@
+{
+  "positions": [
+    {"symbol": "AAA", "market_value": 6000},
+    {"symbol": "BBB", "market_value": 3000},
+    {"symbol": "CASH", "market_value": 1000}
+  ],
+  "expected_largest_weight": 0.6
+}

@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: argus-event-consumer
+spec:
+  replicas: 1
+  selector:
+    matchLabels: {app: argus-event-consumer}
+  template:
+    metadata:
+      labels: {app: argus-event-consumer}
+    spec:
+      serviceAccountName: argus
+      terminationGracePeriodSeconds: 30
+      containers:
+        - name: event-consumer
+          image: ARGUS_BACKEND_IMAGE
+          command: ["argus-event-consumer"]
+          envFrom:
+            - configMapRef: {name: argus-config}
+            - secretRef: {name: argus-secrets}
+          startupProbe:
+            exec:
+              command:
+                - python
+                - -c
+                - >-
+                  import os,time;
+                  path=os.environ["ARGUS_EVENT_CONSUMER_HEALTH_FILE"];
+                  assert time.time()-os.stat(path).st_mtime < 60
+            periodSeconds: 5
+            failureThreshold: 12
+          livenessProbe:
+            exec:
+              command:
+                - python
+                - -c
+                - >-
+                  import os,time;
+                  path=os.environ["ARGUS_EVENT_CONSUMER_HEALTH_FILE"];
+                  assert time.time()-os.stat(path).st_mtime < 60
+            periodSeconds: 10
+            timeoutSeconds: 3
+            failureThreshold: 6
+          resources:
+            requests: {cpu: 100m, memory: 256Mi}
+            limits: {cpu: 500m, memory: 512Mi}
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            runAsUser: 1000
+          volumeMounts:
+            - {name: runtime-tmp, mountPath: /tmp}
+      volumes:
+        - {name: runtime-tmp, emptyDir: {}}

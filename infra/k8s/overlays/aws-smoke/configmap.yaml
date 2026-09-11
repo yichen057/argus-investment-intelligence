@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: argus-config
+data:
+  ARGUS_ENV: aws-smoke
+  ARGUS_S3_PREFIX: aws-smoke
+  AWS_REGION: us-west-2
+  OTEL_EXPORTER_OTLP_ENDPOINT: ""

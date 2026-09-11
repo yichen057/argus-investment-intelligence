@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: argus-config
+data:
+  ARGUS_ENV: local-kind
+  ARGUS_ENABLE_CLOUD_SERVICES: "false"
+  ARGUS_ENABLE_GMAIL: "false"
+  ARGUS_ENABLE_EXTERNAL_MARKET_DATA: "false"
+  ARGUS_ENABLE_ROBINHOOD: "false"
+  ARGUS_REDIS_URL: redis://argus-redis:6379/0
+  ARGUS_KAFKA_BOOTSTRAP_SERVERS: argus-kafka:9092
+  ARGUS_KAFKA_SECURITY_PROTOCOL: PLAINTEXT
+  OTEL_EXPORTER_OTLP_ENDPOINT: ""

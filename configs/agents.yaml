@@ -1,0 +1,38 @@
+version: 1
+
+roles:
+  ingestion:
+    purpose: "Normalize and quarantine untrusted source material."
+    default_capabilities: [extraction, structured_output]
+    allowed_tools: [parse_source, evidence_write, index_write]
+    max_iterations: 4
+
+  research:
+    purpose: "Plan research, retrieve evidence, and draft structured claims."
+    default_capabilities: [tool_calling, structured_output, reasoning]
+    allowed_tools: [evidence_search, market_data, load_skill]
+    max_iterations: 12
+    may_delegate_to: [evidence_critic]
+
+  evidence_critic:
+    purpose: "Independently verify claims, citations, and counter-evidence."
+    default_capabilities: [tool_calling, structured_output, reasoning]
+    allowed_tools: [evidence_search, citation_verify]
+    max_iterations: 6
+
+  portfolio:
+    purpose: "Explain deterministic portfolio calculations."
+    default_capabilities: [structured_output, reasoning]
+    allowed_tools: [portfolio_calculate, vault_read]
+    max_iterations: 4
+    sensitivity: restricted
+
+workflows:
+  daily_brief:
+    roles: [research, evidence_critic]
+    requires_approval: false
+
+  personalized_scenario:
+    roles: [research, evidence_critic, portfolio]
+    requires_approval: true
+

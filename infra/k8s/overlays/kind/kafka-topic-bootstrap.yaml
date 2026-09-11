@@ -1,0 +1,34 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: argus-kafka-topic-bootstrap
+spec:
+  template:
+    spec:
+      initContainers:
+        - name: wait-for-kafka
+          image: apache/kafka:3.8.1
+          command:
+            - /bin/bash
+            - -ec
+            - >-
+              until /opt/kafka/bin/kafka-topics.sh
+              --bootstrap-server argus-kafka:9092 --list >/dev/null;
+              do sleep 2; done
+          resources:
+            requests: {cpu: 25m, memory: 64Mi}
+            limits: {cpu: 100m, memory: 128Mi}
+      containers:
+        - name: topic-bootstrap
+          command:
+            - argus-kafka-topic-bootstrap
+            - --partitions
+            - "1"
+            - --replication-factor
+            - "1"
+            - --event-retention-ms
+            - "604800000"
+            - --retry-retention-ms
+            - "86400000"
+            - --dlq-retention-ms
+            - "604800000"

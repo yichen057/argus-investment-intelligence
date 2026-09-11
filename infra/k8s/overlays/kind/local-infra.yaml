@@ -1,0 +1,163 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: argus-postgres
+spec:
+  replicas: 1
+  selector:
+    matchLabels: {app: argus-postgres}
+  template:
+    metadata:
+      labels: {app: argus-postgres}
+    spec:
+      containers:
+        - name: postgres
+          image: pgvector/pgvector:pg16
+          ports:
+            - {name: postgres, containerPort: 5432}
+          env:
+            - {name: POSTGRES_DB, value: argus}
+            - {name: POSTGRES_USER, value: argus}
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: argus-local-infra
+                  key: POSTGRES_PASSWORD
+          readinessProbe:
+            exec:
+              command: [pg_isready, -U, argus, -d, argus]
+            periodSeconds: 5
+            timeoutSeconds: 3
+            failureThreshold: 12
+          livenessProbe:
+            exec:
+              command: [pg_isready, -U, argus, -d, argus]
+            periodSeconds: 15
+            timeoutSeconds: 3
+          resources:
+            requests: {cpu: 100m, memory: 256Mi}
+            limits: {cpu: 500m, memory: 768Mi}
+          volumeMounts:
+            - {name: postgres-data, mountPath: /var/lib/postgresql/data}
+      volumes:
+        - {name: postgres-data, emptyDir: {}}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: argus-postgres
+spec:
+  selector: {app: argus-postgres}
+  ports:
+    - {name: postgres, port: 5432, targetPort: postgres}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: argus-redis
+spec:
+  replicas: 1
+  selector:
+    matchLabels: {app: argus-redis}
+  template:
+    metadata:
+      labels: {app: argus-redis}
+    spec:
+      containers:
+        - name: redis
+          image: redis:7.4-alpine
+          command: [redis-server, --appendonly, "yes"]
+          ports:
+            - {name: redis, containerPort: 6379}
+          readinessProbe:
+            exec:
+              command: [redis-cli, ping]
+            periodSeconds: 5
+            timeoutSeconds: 3
+            failureThreshold: 12
+          livenessProbe:
+            exec:
+              command: [redis-cli, ping]
+            periodSeconds: 15
+            timeoutSeconds: 3
+          resources:
+            requests: {cpu: 50m, memory: 64Mi}
+            limits: {cpu: 250m, memory: 256Mi}
+          volumeMounts:
+            - {name: redis-data, mountPath: /data}
+      volumes:
+        - {name: redis-data, emptyDir: {}}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: argus-redis
+spec:
+  selector: {app: argus-redis}
+  ports:
+    - {name: redis, port: 6379, targetPort: redis}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: argus-kafka
+spec:
+  replicas: 1
+  selector:
+    matchLabels: {app: argus-kafka}
+  template:
+    metadata:
+      labels: {app: argus-kafka}
+    spec:
+      containers:
+        - name: kafka
+          image: apache/kafka:3.8.1
+          ports:
+            - {name: broker, containerPort: 9092}
+            - {name: controller, containerPort: 9093}
+          env:
+            - {name: KAFKA_NODE_ID, value: "1"}
+            - {name: KAFKA_PROCESS_ROLES, value: "broker,controller"}
+            - {name: KAFKA_LISTENERS, value: "INTERNAL://:9092,CONTROLLER://:9093"}
+            - {name: KAFKA_ADVERTISED_LISTENERS, value: "INTERNAL://argus-kafka:9092"}
+            - {name: KAFKA_CONTROLLER_LISTENER_NAMES, value: CONTROLLER}
+            - {name: KAFKA_INTER_BROKER_LISTENER_NAME, value: INTERNAL}
+            - {name: KAFKA_LISTENER_SECURITY_PROTOCOL_MAP, value: "CONTROLLER:PLAINTEXT,INTERNAL:PLAINTEXT"}
+            - {name: KAFKA_CONTROLLER_QUORUM_VOTERS, value: "1@argus-kafka:9093"}
+            - {name: KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR, value: "1"}
+            - {name: KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR, value: "1"}
+            - {name: KAFKA_TRANSACTION_STATE_LOG_MIN_ISR, value: "1"}
+            - {name: KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS, value: "0"}
+            - {name: KAFKA_LOG_RETENTION_HOURS, value: "24"}
+            - {name: KAFKA_LOG_DIRS, value: /var/lib/kafka/data}
+          readinessProbe:
+            tcpSocket: {port: broker}
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            timeoutSeconds: 3
+            failureThreshold: 18
+          livenessProbe:
+            tcpSocket: {port: broker}
+            initialDelaySeconds: 30
+            periodSeconds: 15
+            timeoutSeconds: 3
+            failureThreshold: 6
+          resources:
+            requests: {cpu: 250m, memory: 768Mi}
+            limits: {cpu: "1", memory: 1536Mi}
+          volumeMounts:
+            - {name: kafka-data, mountPath: /var/lib/kafka/data}
+      volumes:
+        - {name: kafka-data, emptyDir: {}}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: argus-kafka
+spec:
+  clusterIP: None
+  publishNotReadyAddresses: true
+  selector: {app: argus-kafka}
+  ports:
+    - {name: broker, port: 9092, targetPort: broker}
+    - {name: controller, port: 9093, targetPort: controller}

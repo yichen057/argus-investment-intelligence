@@ -1,0 +1,10 @@
+output "cluster_name" { value = module.eks.cluster_name }
+output "configure_kubectl" { value = "aws eks update-kubeconfig --region ${var.aws_region} --name ${module.eks.cluster_name}" }
+output "backend_repository_url" { value = aws_ecr_repository.backend.repository_url }
+output "frontend_repository_url" { value = aws_ecr_repository.frontend.repository_url }
+output "artifact_bucket" { value = aws_s3_bucket.artifacts.id }
+output "runtime_secret_arn" { value = aws_secretsmanager_secret.runtime.arn }
+output "argus_irsa_role_arn" { value = aws_iam_role.argus.arn }
+output "kafka_bootstrap_servers" { value = try(data.aws_msk_bootstrap_brokers.argus[0].bootstrap_brokers_sasl_iam, null) }
+output "kafka_topic_names" { value = var.enable_kafka ? local.kafka_topic_names : [] }
+output "budget_name" { value = aws_budgets_budget.argus.name }

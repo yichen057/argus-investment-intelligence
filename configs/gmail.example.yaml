@@ -1,0 +1,26 @@
+version: 1
+
+gmail:
+  enabled: false
+  credentials_file: "secrets/credentials.json"
+  token_file: "secrets/token.json"
+
+  # The API supports most Gmail advanced-search syntax.
+  query: "label:investment newer_than:30d"
+
+  # Defense in depth: messages are checked against this allowlist after fetch.
+  # Leave empty only when the query itself is intentionally broad.
+  allowed_senders:
+    - "research@example.com"
+    - "newsletter@example.org"
+
+  include_body: true
+  include_attachments: true
+  attachment_mime_allowlist:
+    - "application/pdf"
+    - "text/plain"
+    - "text/html"
+
+  max_messages_per_sync: 100
+  source_sensitivity: internal
+

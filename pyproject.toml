@@ -1,0 +1,88 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "argus-investment-agent"
+version = "0.1.0"
+description = "Auditable personal investment research and decision support."
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.11"
+dependencies = [
+  "fastapi>=0.115",
+  "openpyxl>=3.1.5",
+  "pydantic>=2.10",
+  "pydantic-settings>=2.7",
+  "pypdf>=5.0",
+  "python-multipart>=0.0.32",
+  "pyyaml>=6.0",
+  "structlog>=24.4",
+  "uvicorn[standard]>=0.34",
+  "xlrd>=2.0.2",
+]
+
+[project.scripts]
+argus-api = "investment_agent.app:main"
+argus-eval = "investment_agent.evaluation.cli:main"
+argus-model-benchmark = "investment_agent.evaluation.model_benchmark_cli:main"
+argus-worker = "investment_agent.worker:main"
+argus-event-consumer = "investment_agent.event_consumer:main"
+argus-kafka-topic-bootstrap = "investment_agent.kafka_topic_bootstrap:main"
+argus-verify-migration = "investment_agent.migration_check:main"
+argus-robinhood-sidecar = "investment_agent.integrations.robinhood.sidecar:main"
+
+[project.optional-dependencies]
+storage = [
+  "alembic>=1.14",
+  "pgvector>=0.3",
+  "psycopg[binary]>=3.2",
+  "sqlalchemy>=2.0",
+]
+models = [
+  "google-genai>=1.0",
+]
+robinhood = [
+  "httpx>=0.28",
+  "keyring>=25.6",
+  "mcp>=1.28,<2",
+]
+gmail = [
+  "google-api-python-client>=2.0",
+  "google-auth-httplib2>=0.2",
+  "google-auth-oauthlib>=1.2",
+]
+observability = [
+  "opentelemetry-api>=1.29",
+  "opentelemetry-sdk>=1.29",
+  "opentelemetry-exporter-otlp-proto-http>=1.29",
+  "opentelemetry-instrumentation-fastapi>=0.50b0",
+  "opentelemetry-instrumentation-sqlalchemy>=0.50b0",
+]
+cloud = [
+  "boto3>=1.35",
+  "redis>=5.2",
+  "confluent-kafka>=2.6",
+  "aws-msk-iam-sasl-signer-python>=1.0.2",
+]
+dev = [
+  "httpx>=0.28",
+  "mypy>=1.14",
+  "pytest>=8.3",
+  "ruff>=0.9",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/investment_agent"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+
+[tool.ruff]
+line-length = 88
+target-version = "py311"
+
+[tool.mypy]
+python_version = "3.11"
+strict = true

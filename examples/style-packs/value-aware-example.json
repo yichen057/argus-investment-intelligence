@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "id": "value_aware_custom",
+  "name": "Value-aware custom",
+  "description": "A valuation-first research lens with quality and downside-risk checks.",
+  "research_lenses": [
+    "valuation",
+    "fundamentals",
+    "quality",
+    "downside_risk",
+    "counter_evidence"
+  ],
+  "portfolio_priorities": [
+    "broad_diversification",
+    "low_cost",
+    "value_tilt"
+  ],
+  "product_preferences": [
+    "broad_market_etf",
+    "factor_etf"
+  ],
+  "report_section_order": [
+    "executive_summary",
+    "valuation",
+    "thesis",
+    "drivers",
+    "risks",
+    "counter_evidence",
+    "falsification",
+    "portfolio_implications",
+    "next_checks"
+  ],
+  "allocation_policy": {
+    "equity_adjustment_points": 0,
+    "international_share_of_equity": 0.25,
+    "gold_adjustment_points": 0,
+    "alternatives_points": 0
+  },
+  "references": [
+    {
+      "institution": "MSCI",
+      "title": "MSCI Factor Indexes",
+      "principle": "Value and quality are distinct systematic equity characteristics with different definitions and risks.",
+      "url": "https://www.msci.com/indexes/factor-indexes/msci-factor-indexes"
+    }
+  ]
+}

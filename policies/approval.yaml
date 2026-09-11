@@ -1,0 +1,21 @@
+version: 1
+
+gates:
+  restricted_context_to_cloud:
+    decision: deny
+
+  unredacted_internal_context_to_cloud:
+    decision: deny
+
+  personalized_portfolio_scenario:
+    decision: ask
+    expires_hours: 24
+
+  new_email_connector:
+    decision: ask
+
+prohibited_tools:
+  - brokerage_order_write
+  - unrestricted_file_upload
+  - arbitrary_shell
+

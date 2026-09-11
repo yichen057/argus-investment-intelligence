@@ -1,0 +1,211 @@
+name: argus-aws-smoke
+
+x-app-environment: &app-environment
+  ARGUS_ENV: production
+  ARGUS_DATABASE_URL: postgresql+psycopg://argus:${POSTGRES_PASSWORD:?required}@postgres:5432/argus
+  ARGUS_REDIS_URL: redis://redis:6379/0
+  ARGUS_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+  ARGUS_KAFKA_SECURITY_PROTOCOL: PLAINTEXT
+  ARGUS_KAFKA_CLIENT_ID: argus-aws-smoke
+  ARGUS_KAFKA_CONSUMER_GROUP: argus-audit-metrics-v1
+  ARGUS_KAFKA_CONSUMER_MAX_ATTEMPTS: "3"
+  ARGUS_KAFKA_CONSUMER_RETRY_BACKOFF_MS: "100"
+  ARGUS_KAFKA_CONSUMER_POLL_TIMEOUT_MS: "1000"
+  ARGUS_KAFKA_CONSUMER_STALE_AFTER_SECONDS: "15"
+  ARGUS_KAFKA_AUDIT_RETENTION_COUNT: "5000"
+  ARGUS_KAFKA_AUDIT_RETENTION_DAYS: "30"
+  ARGUS_EVENT_CONSUMER_HEALTH_FILE: /tmp/argus-event-consumer.live
+  ARGUS_ENABLE_CLOUD_SERVICES: "false"
+  ARGUS_ENABLE_GMAIL: "false"
+  ARGUS_ENABLE_EXTERNAL_MARKET_DATA: "false"
+  ARGUS_ENABLE_ROBINHOOD: "false"
+  ARGUS_MODEL_SELECTION_MODE: manual
+
+services:
+  postgres:
+    image: pgvector/pgvector:pg16
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: argus
+      POSTGRES_USER: argus
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?required}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U argus -d argus"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    mem_limit: 1g
+
+  redis:
+    image: redis:7.4-alpine
+    restart: unless-stopped
+    command: ["redis-server", "--appendonly", "yes"]
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    mem_limit: 384m
+
+  kafka:
+    image: apache/kafka:3.8.1
+    restart: unless-stopped
+    environment:
+      KAFKA_NODE_ID: "1"
+      KAFKA_PROCESS_ROLES: broker,controller
+      KAFKA_LISTENERS: INTERNAL://:9092,CONTROLLER://:9093
+      KAFKA_ADVERTISED_LISTENERS: INTERNAL://kafka:9092
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: CONTROLLER:PLAINTEXT,INTERNAL:PLAINTEXT
+      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@kafka:9093
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: "1"
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: "1"
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: "1"
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: "0"
+      KAFKA_LOG_RETENTION_HOURS: "24"
+      KAFKA_LOG_DIRS: /var/lib/kafka/data
+    volumes:
+      - kafka_data:/var/lib/kafka/data
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "/opt/kafka/bin/kafka-topics.sh --bootstrap-server localhost:9092 --list >/dev/null 2>&1",
+        ]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+      start_period: 20s
+    mem_limit: 1280m
+
+  migration:
+    image: ${ARGUS_BACKEND_IMAGE:?required}
+    command: ["sh", "-c", "alembic upgrade head && argus-verify-migration"]
+    environment: *app-environment
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: "no"
+    mem_limit: 512m
+
+  topic-bootstrap:
+    image: ${ARGUS_BACKEND_IMAGE:?required}
+    command:
+      [
+        "argus-kafka-topic-bootstrap",
+        "--partitions",
+        "1",
+        "--replication-factor",
+        "1",
+        "--event-retention-ms",
+        "86400000",
+        "--retry-retention-ms",
+        "21600000",
+        "--dlq-retention-ms",
+        "86400000",
+      ]
+    environment: *app-environment
+    depends_on:
+      kafka:
+        condition: service_healthy
+    restart: "no"
+    mem_limit: 384m
+
+  argus-api:
+    image: ${ARGUS_BACKEND_IMAGE:?required}
+    restart: unless-stopped
+    command: ["uvicorn", "investment_agent.app:app", "--host", "0.0.0.0", "--port", "8000"]
+    environment:
+      <<: *app-environment
+      ARGUS_CORS_ORIGINS: '["http://127.0.0.1:18080"]'
+    volumes:
+      - app_data:/app/data
+      - app_artifacts:/app/artifacts
+    depends_on:
+      migration:
+        condition: service_completed_successfully
+      redis:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
+      topic-bootstrap:
+        condition: service_completed_successfully
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "python",
+          "-c",
+          "import urllib.request; urllib.request.urlopen('http://localhost:8000/health/ready', timeout=2)",
+        ]
+      interval: 5s
+      timeout: 3s
+      retries: 30
+      start_period: 10s
+    mem_limit: 1g
+
+  worker:
+    image: ${ARGUS_BACKEND_IMAGE:?required}
+    restart: unless-stopped
+    command: ["argus-worker"]
+    environment: *app-environment
+    volumes:
+      - app_data:/app/data
+      - app_artifacts:/app/artifacts
+    depends_on:
+      argus-api:
+        condition: service_healthy
+    mem_limit: 1280m
+
+  event-consumer:
+    image: ${ARGUS_BACKEND_IMAGE:?required}
+    restart: unless-stopped
+    command: ["argus-event-consumer"]
+    environment: *app-environment
+    tmpfs:
+      - /tmp
+    depends_on:
+      argus-api:
+        condition: service_healthy
+      topic-bootstrap:
+        condition: service_completed_successfully
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "python",
+          "-c",
+          "import os,time; p=os.environ['ARGUS_EVENT_CONSUMER_HEALTH_FILE']; assert time.time()-os.stat(p).st_mtime < 60",
+        ]
+      interval: 10s
+      timeout: 3s
+      retries: 12
+      start_period: 20s
+    mem_limit: 512m
+
+  frontend:
+    image: ${ARGUS_FRONTEND_IMAGE:?required}
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:8080:8080"
+    depends_on:
+      argus-api:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q -O /dev/null http://localhost:8080/"]
+      interval: 10s
+      timeout: 3s
+      retries: 12
+    mem_limit: 256m
+
+volumes:
+  postgres_data:
+  redis_data:
+  kafka_data:
+  app_data:
+  app_artifacts:
