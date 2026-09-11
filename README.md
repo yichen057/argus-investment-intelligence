@@ -266,6 +266,8 @@ and local demo notes live in
 - Custom LLM endpoints require code changes rather than configuration alone.
 - The V2 cloud stack is reference infrastructure, not a continuously hosted
   production service.
+- The AWS EKS environment was deployed and validated, then decommissioned to
+  control ongoing cloud costs.
 
 See the [complete limitations and future-work record](docs/CURRENT_LIMITATIONS.md).
 
