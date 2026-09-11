@@ -21,6 +21,87 @@ cost-bounded Adaptive Hybrid Retrieval/Method Pack baseline.
 The AWS V2 foundation completed a bounded live acceptance and was destroyed
 after verification; Argus is not currently hosted.
 
+## Quick Start
+
+### Prerequisites
+
+Install [Git](https://git-scm.com/) and Docker Desktop, or another Docker
+environment with Docker Compose v2.
+
+### 1. Clone and create local configuration
+
+```bash
+git clone https://github.com/yichen057/argus.git
+cd argus
+cp .env.example .env
+```
+
+The copied `.env` is ignored by Git. Never commit it or paste its contents into
+an issue, screenshot, frontend `VITE_*` variable, or chat message.
+
+### 2. Choose a model mode
+
+Argus starts without an external LLM. Leave this setting unchanged for the
+local deterministic demo:
+
+```dotenv
+ARGUS_ENABLE_CLOUD_SERVICES=false
+```
+
+To bring your own supported LLM account, change it to `true` and add at least
+one provider key:
+
+```dotenv
+ARGUS_ENABLE_CLOUD_SERVICES=true
+
+# Configure one or more providers.
+ARGUS_GEMINI_API_KEY=
+ARGUS_DEEPSEEK_API_KEY=
+ARGUS_KIMI_API_KEY=
+```
+
+Gemini, DeepSeek, and Kimi are selectable in the main Research and Portfolio
+flows. `ARGUS_OPENAI_API_KEY` currently supports the model-stage benchmark;
+it does not add OpenAI to the main model picker. Ollama, vLLM, OpenRouter, and
+other custom OpenAI-compatible endpoints require a provider adapter and are
+not plug-and-play yet.
+
+Optional public-web research also requires `ARGUS_EXA_API_KEY`. Local file
+research and deterministic portfolio calculations do not.
+
+### 3. Start Argus
+
+```bash
+docker compose up --build
+```
+
+Open <http://localhost:5173/>. The API is available at
+<http://localhost:8000/>. Confirm the model configuration with:
+
+```bash
+curl http://localhost:8000/chat/models
+```
+
+On the Research page, upload the sample files from `examples/research/`, ask a
+question, and explicitly select an external provider only when you want the
+retrieved context sent to that provider.
+
+### 4. Stop Argus
+
+```bash
+docker compose down
+```
+
+If `.env` changes while Argus is already running, recreate the backend:
+
+```bash
+docker compose up -d --force-recreate backend
+```
+
+For the complete demo flow, non-Docker setup, troubleshooting, and operational
+details, continue to [Development](#development) and the
+[Local Operations Runbook](docs/LOCAL_RUNBOOK.md).
+
 ## Why Argus Is Different
 
 - Every material claim links to an evidence-ledger entry.
