@@ -22,18 +22,21 @@ places trades.
   are selected deliberately and receive only the approved context.
 - **Auditable execution:** runs record model/tool calls, evidence IDs, stop
   reasons, latency, and estimated cost without storing API keys.
-- **Local ownership:** research files, portfolio uploads, and application data
+- **Local ownership:** research files, portfolio snapshots, and application data
   stay in the user's local environment unless an external provider is chosen.
 
 ## Demo Previews
 
 ### Research workspace
 
-![Argus research workspace](docs/assets/research-workspace.svg)
+![Current Argus research workspace](docs/assets/research-workspace.jpg)
 
 ### Portfolio dashboard
 
-![Argus portfolio dashboard](docs/assets/portfolio-dashboard.svg)
+![Current Argus portfolio dashboard with a synthetic Robinhood sync](docs/assets/portfolio-dashboard.jpg)
+
+_Current local UI. The portfolio preview uses synthetic holdings and no real
+brokerage account data._
 
 ## Quick Start
 
@@ -90,8 +93,9 @@ curl http://localhost:8000/chat/models
    `examples/research/gold_macro_indicators.csv`.
 3. Ask: `How did gold return, real yield, ETF flows, and central-bank demand trend?`
 4. Generate the cited HTML report.
-5. Open **Invest Suggestions** and import
-   `examples/portfolio/holdings_sample.csv`.
+5. Open **Invest Suggestions**. If the optional read-only Robinhood Sidecar is
+   configured, click **Refresh positions** to sync holdings directly. Otherwise,
+   import `examples/portfolio/holdings_sample.csv` as an offline demo.
 
 Choose an external provider only when you intend to send the accepted
 research context to that provider.
@@ -121,6 +125,7 @@ For troubleshooting and non-Docker setup, see the
 | Kimi | Answer model | `ARGUS_KIMI_API_KEY` | Yes |
 | Exa | Independent public-web evidence search | `ARGUS_EXA_API_KEY` | Search tool |
 | OpenAI | Cost-capped model-stage benchmark | `ARGUS_OPENAI_API_KEY` | No |
+| Robinhood Sidecar | Optional read-only holdings and current quotes | Local OAuth + Sidecar settings | Invest Suggestions |
 
 Ollama, vLLM, OpenRouter, and other custom OpenAI-compatible endpoints are
 not plug-and-play yet; they require a provider adapter and model registration.
@@ -143,9 +148,10 @@ generate an auditable answer or HTML report.
 
 ### Portfolio intelligence
 
-Import a dated holdings CSV and compare maintain, contribution-first, and
-partial-rebalance scenarios. Targets, dollar amounts, estimated shares,
-concentration screens, and DCA allocations are deterministic.
+Sync a read-only Robinhood holdings snapshot directly, or import a dated CSV or
+Excel file for offline and non-Robinhood assets. Compare maintain,
+contribution-first, and partial-rebalance scenarios. Targets, dollar amounts,
+estimated shares, concentration screens, and DCA allocations are deterministic.
 
 ### Money planning
 

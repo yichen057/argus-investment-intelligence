@@ -373,7 +373,12 @@ Use this path for a clean V1 walkthrough:
 
 4. Click **Generate report** and open the HTML report. The report should include
    a `Data Analysis` section with source-backed trend and bar charts.
-5. Open **Invest Suggestions**, use the portfolio file picker, and import:
+5. Open **Invest Suggestions**. When the optional local Robinhood Sidecar has
+   completed authorization and configuration, click **Refresh positions** to
+   sync the Investments account directly—no holdings upload is required. See
+   the [Local Operations Runbook](LOCAL_RUNBOOK.md) for the read-only Sidecar
+   setup. For an offline demo or assets held outside Robinhood, use the
+   portfolio file picker and import:
 
    ```text
    examples/portfolio/holdings_sample.csv
@@ -421,9 +426,9 @@ A committed sample report artifact is available at
 
 ### Demo Previews
 
-![Research workspace preview](assets/research-workspace.svg)
+![Current research workspace preview](assets/research-workspace.jpg)
 
-![Portfolio analysis preview](assets/portfolio-dashboard.svg)
+![Current portfolio analysis preview using synthetic Robinhood holdings](assets/portfolio-dashboard.jpg)
 
 ## Acceptance demo
 
